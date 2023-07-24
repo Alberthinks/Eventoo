@@ -1,0 +1,6 @@
+h1 {text-align: center;}
+li a {color: #FFA9A3 !important;}
+li a:hover {text-decoration: underline;}
+ul {
+    list-style-type: none;
+}
