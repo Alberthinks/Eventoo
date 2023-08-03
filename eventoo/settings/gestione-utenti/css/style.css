@@ -1,0 +1,26 @@
+/* Gestione utenti */
+
+body {
+    overflow-x: auto !important;
+}
+
+table.utenti {
+    border-collapse: collapse;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.utenti th, .utenti td {
+    border: 1px solid black;
+    text-align: center;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.utenti tr:hover {background-color: rgba(255, 255, 255, 0.5);}
+
+.input-container {margin-bottom: 20px;}
+
+@media (prefers-color-scheme: dark) {
+    .utenti th, .utenti td {border-color: white;}
+}
