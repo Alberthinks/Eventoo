@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+
+html, body {height: 100%; width: 100%;}
+
+.titolo {
+  text-align: center;
+  font-size: 52px;
+  letter-spacing: 6px;
+  margin-bottom: -5px;
+  margin-top: 0;
+  font-family: 'Permanent Marker', cursive;
+}
+
+.descrizione {
+  overflow: hidden;
+  width: 90%;
+  text-align: justify;
+}
+
+.informazioni {
+  width: 40%;
+  min-width: 400px;
+  padding: 20px 30px 30px 30px;
+  margin-top: 60px;
+  background-color: #ffffcc;
+  box-shadow: 5px 5px 7px rgba(33,33,33,0.7);
+  font-family: 'Caveat', Noto Color Emoji, cursive;
+  font-size: 28px;
+  letter-spacing: 2px;
+  color: #000000;
+  float: left;
+  transform: rotate(-1.5deg);
+  -webkit-transform: rotate(-1.5deg);
+  -o-transform: rotate(-1.5deg);
+  -moz-transform:rotate(-1.5deg);
+}
+
+.informazioni b, .informazioni p, .informazioni a {
+  font-family: 'Caveat', Noto Color Emoji, cursive;
+  font-size: 26px;
+}
+
+.informazioni .material-icons {
+  font-size: 24px !important;
+  line-height: 1.8 !important;
+}
+
+.informazioni a {color: #000000 !important;}
+
+.changeBtn {
+  text-decoration: underline !important;
+  color: #000000;
+  margin-top: 40px;
+}
+
+.right_content {
+  width: 35%;
+  min-width: 400px;
+  margin-top: 60px;
+  margin-right: 20px;
+  float: right;
+  background-color: transparent;
+}
+
+/* Immagine della locandina */
+
+.locandina {height: 450px; display: block; margin-right: auto; margin-left: auto; margin-top: 26px;}
+
+/* Bottone per prenotare evento dalla nota del calendario */
+.prenotaBtn {
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    background-color: #34d0d1;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    user-select: none;
+    margin-top: 120px;
+    transition: all 0.4s ease-in-out;
+  }
+  .prenotaBtn:hover {
+    background-color: #27aaaa;
+    color: white;
+  }
+  .prenotaBtn::after {
+    content: '\2192';
+    font-size: 20px;
+    padding-left: 10px;
+    transition: all 0.4s;
+    color: black;
+    position: relative;
+    left: 0px;
+  }
+  .prenotaBtn:hover::after {
+    content: '\2192';
+    color: white;
+    left: 10px;
+  }
+
+  /* 2 o + eventi lo stesso giorno */
+  .singola_nota {
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 30px; 
+    color: #000000; 
+    display: table;
+    width: 100%;
+    padding-top: 20px; 
+    padding-bottom: 20px; 
+    padding-right: 50px;
+    padding-left: 50px;
+  }
+  .singola_nota a {color: #000000;}
+  .singola_nota_right {float: right; margin-top: -80px;}
+  .singola_nota_left {float: left;}
+
+  /* Dispositivi piccoli */
+
+  @media only screen and (max-width: 990px) {
+    .container {padding: 0 !important; margin: 0 !important;}
+    .informazioni, .right_content {
+      width: 100% !important;
+      margin: 30px 0 0 0;
+    }
+  }
+	@media only screen and (max-width: 1050px) {
+  #footer {
+		bottom: 0;
+		width: 100%;
+  }
+}
