@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+
+* {font-family: 'Open Sans', sans-serif; box-sizing: border-box;}
+
+:root {
+	--color-primary: dodgerblue;
+	--color-header-calendar: #46CEF8;
+	--color-today-bg: #fbffa8;
+	--color-background: #d1e8ff;
+	--color-label: rgba(0, 0, 0, 0.6);
+	--color-input-focus: blue;
+	--color-confirm-btn: #29b429;
+	--color-confirm-btn-hover: #208f20;
+	--color-cancel-btn: red;
+	--color-cancel-btn-hover: #ad0000;
+	--color-event-details: #ffffcc;
+	--color-alert: #ffe166;
+	--color-error: #c20000;
+	--font-event-details-title: 'Permanent Marker', cursive;
+}
+
+html, body {
+	padding: 0; 
+	margin: 0; 
+	overflow-x: hidden;
+	color: #333333;
+	background-color: var(--color-background);
+	/*background-color: #f0e9fd;*/
+	min-height: 100vh !IMPORTANT;
+	display: flex !IMPORTANT;
+	flex-direction: column !IMPORTANT;
+}
+
+/* Link */
+a {
+    color: #333333;
+    text-decoration: none;
+}
+
+/* Header (intestazioni) */
+.tabel {
+	border-color: black;
+	border-style: solid;
+	margin-top: 40px;
+	width: 60%;
+	overflow-x: auto;
+}
+
+/* Container */
+
+.container {margin-left: 20px; margin-top: 140px;}
+
+/* Input testo */
+
+.input-container {
+	position: relative;
+}
+  
+input {
+	height: 48px;
+	width: 310px;
+	border: 1px solid #c0c0c0;
+	border-radius: 4px;
+	box-sizing: border-box;
+	padding: 16px;
+}
+
+  .long_input {width: 620px;}
+  
+  .label, .fixed_label {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 16px;
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+	color: var(--color-label);
+  }
+  
+  input, .label .text {
+	font-family: 'Segoe UI';
+	font-size: 16px;
+  }
+  
+  input:focus {
+	outline: none;
+	border: 2px solid var(--color-input-focus);
+  }
+  
+  input:focus + .label .text, :not(input[value=""]) + .label .text {
+	font-size: 12px;
+	transform: translate(0, -140%);
+	background-color: white;
+	padding-left: 4px;
+	padding-right: 4px;
+  }
+  
+  .fixed_label {
+	font-size: 12px !important;
+	transform: translate(0, -50%) !important;
+	background-color: white;
+	height: 18px;
+	padding-left: 4px;
+	padding-right: 4px;
+  }
+  
+  input:focus + .label .text, input:focus + .fixed_label {
+	color: var(--color-input-focus);
+  }
+  
+  .label .text {
+	transition: all 0.15s ease-out;
+  }
