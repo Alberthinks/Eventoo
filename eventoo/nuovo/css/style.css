@@ -1,0 +1,172 @@
+/* Far sparire frecce dell'input type number */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Pulsanti di invio e reset */
+
+input[type=submit] {
+  background-color: var(--color-confirm-btn);
+  color: #ffffff;
+}
+
+input[type=submit]:focus, input[type=submit]:active, input[type=submit]:hover {
+  border: none;
+  background-color: var(--color-confirm-btn-hover);
+}
+
+input[type=reset] {
+  color: var(--color-cancel-btn);
+  background-color: #ffffff;
+}
+
+input[type=reset]:focus, input[type=reset]:active, input[type=reset]:hover {
+  background-color: var(--color-cancel-btn);
+  color: #ffffff;
+}
+
+input[type=submit], input[type=reset] {
+  cursor: pointer;
+  border: none;
+  transition: 0.4s;
+  font-size: 18px;
+  width: 160px;
+  margin-top: 30px;
+  padding: 5px;
+}
+
+.input_error {
+	border: 2px solid var(--color-error);
+}
+
+.input_error_label {
+	color: var(--color-error) !important;
+}
+
+p {margin-bottom: 20px;}
+
+/* Area di upload della locandina */
+
+.main_container {display: flex;}
+
+.right_content, .left_content {
+	width: 50%;
+	height: 100%;
+}
+@media only screen and (max-width: 860px) {
+	.main_container{display:block !important; }
+  }
+.right_content {padding-top: 60px;}
+
+  /* Autocompletamento dei luoghi */
+
+  /*the container must be positioned relative:*/
+.autocomplete {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .autocomplete-items {
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    color: black;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff; 
+    border-bottom: 1px solid #d4d4d4; 
+  }
+  
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: #e9e9e9; 
+  }
+  
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: var(--color-primary) !important; 
+    color: #ffffff; 
+  }
+
+  
+	/* Drag & Drop */
+    .drop-zone {
+		  max-width: 1200px;
+		  width: 60%;
+		  height: 200px;
+		  padding: 25px;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  text-align: center;
+		  font-family: "Quicksand", sans-serif;
+		  font-weight: 500;
+		  font-size: 22px;
+		  cursor: pointer;
+		  color: #333333;
+		  border: 4px dashed #c5c5c5;
+		  border-radius: 10px;
+		  transition: 0.2s;
+		  min-width:250px;
+		}
+		
+		.drop-zone:hover {
+			background-color: rgba(0,0,0,0.1);
+		}
+
+		.drop-zone--over {
+		  border-style: solid;
+		}
+
+		.drop-zone__input {
+		  display: none;
+		}
+
+		.drop-zone__thumb {
+		  width: 200px;
+		  height: 100%;
+		  border-radius: 10px;
+		  overflow: hidden;
+		  background-color: transparent;
+		  background-size: auto 80%;
+		  background-repeat: no-repeat;
+		  background-position-x: 50%;
+		  position: relative;
+		}
+
+		.drop-zone__thumb::after {
+		  content: attr(data-label);
+		  position: absolute;
+		  bottom: 0;
+		  left: 0;
+		  width: 100%;
+		  padding: 5px 0;
+		  color: #cccccc;
+		  background: rgba(0, 0, 0, 0.75);
+		  font-size: 14px;
+		  text-align: center;
+		}
+		
+		.drop-zone__prompt__accepted_filetype {
+			font-size: 16px;
+			color: #777777;
+		}
