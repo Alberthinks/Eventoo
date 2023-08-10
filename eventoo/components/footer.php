@@ -43,6 +43,6 @@ footer {
         </div>
         </div>
         <p class="copyright"><?php echo $nome_app." - ver. ".$version; ?></p>
-        <a href="https://forms.gle/hLo74tEhhXoatTfu8" target="_blank" style="text-align: left; text-decoration: underline; color: white;">Consigliami un miglioramento</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScwcfgt9F1rB2XKPg8Nwj8yz1meMTF4CqX5KTJsMRVBs1QI6g/viewform?usp=sf_link" target="_blank" style="text-align: left; text-decoration: underline; color: white;">Consigliami un miglioramento</a>
     </div>
 </footer>
