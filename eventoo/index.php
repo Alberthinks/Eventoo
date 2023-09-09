@@ -37,7 +37,7 @@ include 'default.php';
             .content_default {padding: 163px 30px 40px 30px; font-size: 18px;}
 
             .accordion {
-            background-color: #add6ff;
+            background-color: var(--color-accordion-btn);
             color: #444;
             cursor: pointer;
             padding: 18px;
@@ -50,7 +50,7 @@ include 'default.php';
             }
 
             .active, .accordion:hover {
-            background-color: #66b2ff;
+            background-color: var(--color-accordion-btn-active);
             }
 
             .accordion:after {
@@ -67,7 +67,7 @@ include 'default.php';
 
             .panel {
             padding: 0 18px;
-            background-color: #c2e0ff;
+            background-color: var(--color-accordion-bg);
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.2s ease-out;
