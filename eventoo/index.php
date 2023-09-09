@@ -30,7 +30,8 @@ include 'default.php';
         <meta name="theme-color" content="#ffffff">
         <!-- CSS -->
         <link rel="stylesheet" href="css/default.css" type="text/css">
-        <link rel="stylesheet" href="css/style.css" type="text/css"><link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <style>
             /* Contenuto della pagina */
             .content_default {padding: 163px 30px 40px 30px; font-size: 18px;}
