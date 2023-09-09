@@ -148,13 +148,13 @@ $classe = $_GET['classe'];
                     echo "<table>\n"; 
                     echo "<tr>\n
                     <th class=\"mese\" colspan=\"2\">\n
-                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=" . $precedente . "\">arrow_back_ios</a>\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=" . $precedente . "&classe=".$_GET['classe']."\">arrow_back_ios</a>\n
                     </th>\n
                     <th class=\"mese\" colspan=\"3\">\n
                     " . $nomi_mesi[$m-1] . " " . $y . "
                     </th>\n
                     <th class=\"mese\" colspan=\"2\">
-                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" href=\"?d=" . $successivo . "\">arrow_forward_ios</a>\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" href=\"?d=" . $successivo . "&classe=".$_GET['classe']."\">arrow_forward_ios</a>\n
                     </th>\n
                     </tr>\n";
                     foreach($nomi_giorni as $v)
