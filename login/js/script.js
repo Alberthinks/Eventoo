@@ -143,7 +143,7 @@ function forgottenPsw() {
   forgottenForm.style.display = "block";
   forgottenDiv.style.display = "block";
   document.getElementById("forgottenFrame").setAttribute("src", "https://docs.google.com/forms/d/e/1FAIpQLSeeNopa2iDeLLgzPpEdh2hK5dKud3X8xD7Z5n02bh_w9yirVA/viewform?embedded=true");*/
-  alert("Per recuperare le credenziali contatta l'amministratore!\nIl tuo amministratore è: Amos Golinelli.");
+  alert("Per recuperare le credenziali, rivolgersi al Dirigente Scolastico.");
 }
 
 function closeForgotten() {
