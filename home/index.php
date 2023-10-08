@@ -67,7 +67,7 @@ $classe = $_GET['classe'];
         <center>
             <?php
             // Se è la prima volta che si accede alla piattaforma, vengono mostrate delle informazioni utitli per l'uso della piattaforma
-            if (!isset($_COOKIE['session_timestamp2_lele_planner_0425']) && isset($_SESSION['session_user_lele_planner_0425'])) {
+            /*if (!isset($_COOKIE['session_timestamp2_lele_planner_0425']) && isset($_SESSION['session_user_lele_planner_0425'])) {
                 setcookie('session_timestamp2_lele_planner_0425','true', time() + (86400 * 30),'/');
                 echo '<style>.guide {background: white; color: #333; min-width: 300px; width: 500px; padding-left: 30px; padding-right: 30px; padding: 20px; text-align: left; position: fixed; top: 45%; left: 42%; z-index: 15; box-shadow: 0 0 30px #333; z-index:50;}
                 .guide h3 {margin-top: 0;} .guide .material-icons {font-size: 16px;}
@@ -95,7 +95,7 @@ $classe = $_GET['classe'];
                 echo '</div>';
                 echo '<script>function nextSlide(slide) {document.getElementById("guide"+slide).style.display="none"; document.getElementById("guide"+(slide+1)).style.display="block";}';
                 echo 'function closeAll() {document.getElementById("bgblack").style.display = "none";}</script>';
-            }
+            }*/
             ?>
             <section class="container">
             <h1>Classe <?php echo $classe; ?></h1>
