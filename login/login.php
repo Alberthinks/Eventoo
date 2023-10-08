@@ -23,16 +23,17 @@
             <p><strong>Attenzione!
                 <?php
                     include "../default.php";
+                    include "../config.php";
 
                     $redirect = $_GET['redirect'];
                     
                     session_start();
                     $config = [
                         'db_engine' => 'mysql',
-                        'db_host' => 'localhost',
+                        'db_host' => $host,
                         'db_name' => 'eventoo_users',
-                        'db_user' => 'eventooRootUser',
-                        'db_password' => 'QnBWQzlN-vVko9Egryb5b4&k1b4hghb2bj1jkj4$',
+                        'db_user' => $user,
+                        'db_password' => $pass,
                     ];
                     
                     $db_config = $config['db_engine'] . ":host=".$config['db_host'] . ";dbname=" . $config['db_name'];

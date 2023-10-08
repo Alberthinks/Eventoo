@@ -1,6 +1,7 @@
 <?php
 session_start();
 include "../../default.php";
+include "../../config.php";
 
 if ($_SESSION['session_permessi_eventoo'] == "maintenance") {
 $helpText = "";
@@ -58,7 +59,7 @@ $helpText = "";
                     $helpText .= "help      Mostra le funzioni disponibili con questo prompt di comandi\n";
                     $helpText .= "info      Restituisce le informazioni relative alla piattaforma\n";
                     $helpText .= "showLicenseKey      Mostra la License Key del prodotto\n";
-                    $helpText .= "changeLicenseKey      Modifica la License Key del prodotto (NON IMPLEMENTATA)\n";
+                    $helpText .= "changeLicenseKey      Modifica la License Key del prodotto\n";
                     $helpText .= "getmaintenance      Dice se la modalità manutenzione è ATTIVA/DISATTIVATA\n";
                     $helpText .= "maintenance a      Abilita la modalità manutenzione\n";
                     $helpText .= "maintenance d      Disattiva la modalità manutenzione\n";
@@ -84,22 +85,22 @@ $helpText = "";
                     }
                     break;
                 case "maintenance a":
-                    $myconn = mysqli_connect('localhost','root','mysql', 'eventoo') or die (mysqli_error());
+                    $myconn = mysqli_connect($host,$user,$pass, 'eventoo') or die (mysqli_error());
                     $sql = "UPDATE systems SET maintenance='true' WHERE id = 1";
 
                     mysqli_query($myconn,$sql) or die (mysqli_error($conn));
                     break;
                 case "maintenance d":
-                    $myconn = mysqli_connect('localhost','root','mysql', 'eventoo') or die (mysqli_error());
+                    $myconn = mysqli_connect($host,$user,$pass, 'eventoo') or die (mysqli_error());
                     $sql = "UPDATE systems SET maintenance='false' WHERE id = 1";
 
                     mysqli_query($myconn,$sql) or die (mysqli_error($conn));
                     break;
                 case "changeLicenseKey":
-                    $helpText = "Funzione non ancora supportata.";
+                    echo "<script>window.open(\"../../install/create_license_key.php\", \"_blank\", \"toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=50,width=600,height=360\");</script>";
                     break;
                 case "info":
-                    $default_conn = mysqli_connect('localhost', 'root', 'mysql', 'eventoo');
+                    $default_conn = mysqli_connect($host, $user, $pass, 'eventoo');
                     $default_query = mysqli_query($default_conn,"SELECT * FROM systems") or die (mysqli_error($default_conn));
                     $default_fetch = mysqli_fetch_array($default_query) or die (mysqli_error());
 

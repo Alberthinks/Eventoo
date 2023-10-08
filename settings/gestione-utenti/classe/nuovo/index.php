@@ -2,6 +2,7 @@
 session_start();
 
 include "../../../../default.php";
+include "../../../../config.php";
 
 $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo'];
 ?>
@@ -27,7 +28,7 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
                 $id = cripta(addslashes($_POST['id']),'encrypt');
                 $indirizzo = cripta(addslashes($_POST['indirizzo']),'encrypt');
 
-                $conn = mysqli_connect("localhost","eventooRootUser","QnBWQzlN-vVko9Egryb5b4&k1b4hghb2bj1jkj4$", "eventoo_users") or die (mysqli_error());
+                $conn = mysqli_connect($host,$user,$pass, "eventoo_users") or die (mysqli_error());
 
                 $sql = "INSERT INTO classi (id, indirizzo) VALUES ('$id', '$indirizzo')";
 
