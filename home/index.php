@@ -193,7 +193,7 @@ $classe = $_GET['classe'];
                                     $str_data = $fetch['data'];
                                     if ($str_data == $data)
                                     {
-                                        $sql = "SELECT * FROM planner WHERE data=$str_data";
+                                        $sql = "SELECT * FROM planner WHERE data=$str_data AND classe='".$_GET['classe']."'";
                                         $result = mysqli_query($conn,$sql) or die (mysqli_error($conn));
                                         
                                         if(mysqli_num_rows($result) == 1)
@@ -278,9 +278,9 @@ $classe = $_GET['classe'];
                 ShowCalendar(date("m"),date("Y"));
                 ?>
             </div>
+            </section>
         </center>
 
-            </section>
         <script>
             function newEvent(data) {
                 location.href = "../nuovo?data=" + data + "&classe=<?php echo $classe; ?>";

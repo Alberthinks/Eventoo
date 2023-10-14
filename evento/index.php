@@ -292,7 +292,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         
                         echo "<table class='file_viewer'>";
                         echo "<tr>";
-                        echo "<td><img src='".$file_icon."' align='center' draggable='false' height='30' style='margin-right: 15px;'></td><td>".$link_foto_video."</td><td><a style='margin-left: 25px;' href='files/".$link_foto_video."' class='material-icons' download>download</a></td><td><a style='margin-right: 10px;' href='files/".$link_foto_video."' class='material-icons' target='_blank'>visibility</a></td>";
+                        echo "<td><img src='".$file_icon."' align='center' draggable='false' height='30' style='margin-right: 15px;'></td><td>".$link_locandina."</td><td><a style='margin-left: 25px;' href='files/".$link_locandina."' class='material-icons' download>download</a></td><td><a style='margin-right: 10px;' href='files/".$link_locandina."' class='material-icons' target='_blank'>visibility</a></td>";
                         echo "</tr>";
                         echo "</table>";
                     }
