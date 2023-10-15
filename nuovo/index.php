@@ -227,7 +227,8 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                         value="<?php echo $get_classe; ?>"
                                         aria-labelledby="label-classe"
                                         oninput="manageTextInputStyle('classe')"
-                                        required
+                                        style="opacity: 1; background: rgba(255, 255, 255, 0.7);"
+                                        disabled
                                     />
                                     <label class="label" for="classe" id="label-classe">
                                         <div class="text">Classe interessata</div>

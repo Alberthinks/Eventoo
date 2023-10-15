@@ -239,7 +239,7 @@ $classe = $_GET['classe'];
                                                     $data_evento = date("d-m-Y", $fetch['data']);
                                                 }
                                             
-                                                $contenuto = "<a href=\"../evento/?day=$str_data\" title=\"Vedi tutti\"><div class=\"nota multipla\">Sono presenti ".$num_rows." eventi...</div></a>";
+                                                $contenuto = "<a href=\"../evento/?day=$str_data&classe=".$_GET['classe']."\" title=\"Vedi tutti\"><div class=\"nota multipla\">Sono presenti ".$num_rows." eventi...</div></a>";
                                         }
                                     
                                     
