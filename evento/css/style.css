@@ -132,10 +132,10 @@ html, body {height: 100%; width: 100%;}
   /* Dispositivi piccoli */
 
   @media only screen and (max-width: 990px) {
-    .container {padding: 0 !important; margin: 0 !important;}
+    .container {padding: 120px 0 0 0 !important; margin: 0 !important;}
     .informazioni, .right_content {
       width: 100% !important;
-      margin: 30px 0 0 0;
+      margin-top: 30px;
     }
   }
 	@media only screen and (max-width: 1050px) {
