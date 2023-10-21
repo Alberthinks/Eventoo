@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-//$view = $_GET['view'];
+$view = $_GET['view'];
 
 include 'default.php';
 ?>
@@ -84,47 +84,242 @@ include 'default.php';
             include "components/header.php";
         ?>
 
+        <!-- Sottomenu -->
+        <div class="second_menu">
+            <div class="second_menu_btn" <?php if ($view != "classi") {echo "id=\"selected\"";} ?> onclick="location.href='?view=';">Eventi dell'Istituto</div>
+            <div class="second_menu_btn" <?php if ($view == "classi") {echo "id=\"selected\"";} ?> onclick="location.href='?view=classi';">Eventi per classe</div>
+        </div>
+
         <section class="content_default">
-        <?php
+            
+            <?php
+            // Siamo nella sezione "Eventi per classe"
+            if ($view == "classi") {
 
-        // Siamo nella sezione "Classi"
-        //if ($view != "stanze") {
+                echo "<h1 style='font-size: 32px; margin-bottom: 40px;'>Eventi per classe</h1>";
+                $db = 'eventoo_users';
+                $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
-            echo "<h1 style='font-size: 32px; margin-bottom: 40px;'>Eventi per classe</h1>";
+                $result = mysqli_query($conn,"SELECT * FROM classi ORDER BY indirizzo") or die (mysqli_error($conn));
+                $row_cnt = mysqli_num_rows($result);
+                $conta = 0;
 
-            include 'config.php';
-            $db = 'eventoo_users';
-            $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
-
-            $result = mysqli_query($conn,"SELECT * FROM classi ORDER BY indirizzo") or die (mysqli_error($conn));
-            $row_cnt = mysqli_num_rows($result);
-            $conta = 0;
-
-            // Se non ci sono classi registrate
-            if ($row_cnt == 0) {
-                echo "<i class='material-icons' style='font-size: 40px;'>group_off</i><br />Nessuna classe registrata";
-            } else {
-                while($row = mysqli_fetch_row($result)) {
-                    // Contatore per sapere se sono arrivato all'ultimo elemento
-                    $conta++;
-                    // Se la classe attuale appartiene allo stesso indirizzo della classe precedente
-                    if ($row[1] == $indirizzo_prec) {
-                        // Metto un separatore e aggiungo la classe attuale nello stesso panel di quella precedente
-                        echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
-                        /* Altrimenti chiudo il panel della classe precedente e ne apro uno nuovo con
-                        l'indirizzo della classe attuale */
-                    } else {
-                        echo "</div>";
-                        echo "<button class=\"accordion\">".cripta($row[1], "decrypt")."</button>\n";
-                        echo "<div class=\"panel\">\n";
-                        echo "<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
+                // Se non ci sono classi registrate
+                if ($row_cnt == 0) {
+                    echo "<i class='material-icons' style='font-size: 40px;'>group_off</i><br />Nessuna classe registrata";
+                } else {
+                    while($row = mysqli_fetch_row($result)) {
+                        // Contatore per sapere se sono arrivato all'ultimo elemento
+                        $conta++;
+                        // Se la classe attuale appartiene allo stesso indirizzo della classe precedente
+                        if ($row[1] == $indirizzo_prec) {
+                            // Metto un separatore e aggiungo la classe attuale nello stesso panel di quella precedente
+                            echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
+                            /* Altrimenti chiudo il panel della classe precedente e ne apro uno nuovo con
+                            l'indirizzo della classe attuale */
+                        } else {
+                            echo "</div>";
+                            echo "<button class=\"accordion\">".cripta($row[1], "decrypt")."</button>\n";
+                            echo "<div class=\"panel\">\n";
+                            echo "<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
+                        }
+                        // Se sono arrivato all'ultima classe chiudo il panel di questa classe
+                        if ($conta == $row_cnt) {
+                            echo "</div>";
+                        }
+                        $indirizzo_prec = $row[1];
                     }
-                    // Se sono arrivato all'ultima classe chiudo il panel di questa classe
-                    if ($conta == $row_cnt) {
-                        echo "</div>";
-                    }
-                    $indirizzo_prec = $row[1];
                 }
+            } else {
+            ?>
+
+            <!-- Calendario di tutte le classi -->
+            <h1 style='font-size: 32px; margin-bottom: 40px;'>Eventi dell&apos;Istituto</h1>
+            <div class="tabel" style="margin-left: auto; margin-right: auto;">
+                <?php
+                function ShowCalendar($m,$y)
+                {
+                    if ((!isset($_GET['d']))||($_GET['d'] == ""))
+                    {
+                        $m = date('n');
+                        $y = date('Y');
+                    } else {
+                        $m = (int)strftime( "%m" ,(int)$_GET['d']);
+                        $y = (int)strftime( "%Y" ,(int)$_GET['d']);
+                        $m = $m;
+                        $y = $y;
+                    }
+
+                    $precedente = mktime(0, 0, 0, $m -1, 1, $y);
+                    $successivo = mktime(0, 0, 0, $m +1, 1, $y);
+
+                    $nomi_mesi = array(
+                        "Gennaio",
+                        "Febbraio",
+                        "Marzo",
+                        "Aprile",
+                        "Maggio",
+                        "Giugno", 
+                        "Luglio",
+                        "Agosto",
+                        "Settembre",
+                        "Ottobre",
+                        "Novembre",
+                        "Dicembre"
+                    );
+                    $nomi_giorni = array(
+                        "Lunedì",
+                        "Martedì",
+                        "Mercoledì",
+                        "Giovedì",
+                        "Venerdì",
+                        "Sabato",
+                        "Domenica"
+                    );
+
+                    $cols = 7;
+                    $days = date("t",mktime(0, 0, 0, $m, 1, $y)); 
+                    $lunedi= date("w",mktime(0, 0, 0, $m, 1, $y));
+                    if($lunedi==0) $lunedi = 7;
+                    echo "<table style=\"margin-left: auto; margin-right: auto;\">\n"; 
+                    echo "<tr>\n
+                    <th class=\"mese\" colspan=\"2\">\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=".$precedente."\">arrow_back_ios</a>\n
+                    </th>\n
+                    <th class=\"mese\" colspan=\"3\">\n
+                    " . $nomi_mesi[$m-1] . " " . $y . "
+                    </th>\n
+                    <th class=\"mese\" colspan=\"2\">
+                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" href=\"?d=".$successivo."\">arrow_forward_ios</a>\n
+                    </th>\n
+                    </tr>\n";
+                    foreach($nomi_giorni as $v)
+                    {
+                        echo "<th>".$v."</th>\n";
+                    }
+                    echo "</tr>";
+
+                    for($j = 1; $j<$days+$lunedi; $j++)
+                    {
+                        if($j%$cols+1==0)
+                        {
+                            echo "<tr>\n";
+                        }
+                        
+                        // Se il mese non inizia il lunedi', si aggiungono altre celle per riempire i buchi
+                        if($j<$lunedi)
+                        {
+                            echo "<td class=\"extra_day\"> </td>\n";
+                        } else {
+                            $day= $j-($lunedi-1);
+                            $data = strtotime(date($y."-".$m."-".$day));
+                            $oggi = strtotime(date("Y-m-d"));
+                            $contenuto = " ";
+                            
+                            include 'config.php';
+                            $db = 'eventoo_planner';
+                            $conn_calendar = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
+                            
+                            $result = mysqli_query($conn_calendar,"SELECT data FROM planner") or die (mysqli_error($conn_calendar));
+
+                            if(mysqli_num_rows($result) > 0)
+                            {
+                                while($fetch = mysqli_fetch_array($result))
+                                {
+                                    $str_data = $fetch['data'];
+                                    if ($str_data == $data)
+                                    {
+                                        $sql = "SELECT * FROM planner WHERE data=$str_data";
+                                        $result = mysqli_query($conn_calendar,$sql) or die (mysqli_error($conn_calendar));
+                                        
+                                        if(mysqli_num_rows($result) == 1)
+                                        {
+                                            while($fetch = mysqli_fetch_array($result))
+                                            {
+                                                $id = stripslashes($fetch['id']);
+                                                $titolo = stripslashes($fetch['titolo']);
+                                                $data_evento = date("d-m-Y", $fetch['data']);
+                                                $ora = stripslashes($fetch['ora_inizio']);
+                                                $ora2 = stripslashes($fetch['ora_fine']);
+                                                $luogo = stripslashes($fetch['stanza']);
+                                                $type = stripslashes($fetch['categoria']);
+                                                $filenameDelete = stripslashes($fetch['link_locandina']);
+                                                $validity = stripslashes($fetch['validity']);
+                                            }
+
+                                            // Elimino i file degli eventi salvati da 2 o piu' anni
+                                            if ($validity <= date('Ymd') - 20000) {
+                                                unlink("evento/files/$filenameDelete");
+                                            }
+                            
+                                            // Elimino record salvati da + di 2 anni
+                                            $deleteSQL = mysqli_query($conn_calendar,"DELETE from planner WHERE validity <= CURDATE() - 20000") or die (mysqli_error($conn_calendar));
+                                        
+                                            $contenuto = "<div class=\"nota\">
+                                                            <a href=\"evento/?id=$id\">
+                                                            <p class=\"title\" title=\"".$titolo."\">".$titolo."</p>
+                                                            <p class=\"info_nota\">
+                                                            <span title=\"".$ora." - ".$ora2."\"><i class=\"material-icons\">schedule</i>".$ora." - ".$ora2."</span><br>
+                                                            <span title=\"".$luogo."\"><i class=\"material-icons\">place</i>".$luogo."</span>
+                                                            </p>
+                                                            </a>
+                                                            </div>";
+                                        }
+                                        $num_rows = mysqli_num_rows($result);
+                                        if($num_rows > 1)
+                                            {
+                                                while($fetch = mysqli_fetch_array($result))
+                                                {
+                                                    $id = stripslashes($fetch['id']);
+                                                    $titolo = stripslashes($fetch['titolo']);
+                                                    $data_evento = date("d-m-Y", $fetch['data']);
+                                                }
+                                            
+                                                $contenuto = "<a href=\"evento/?day=$str_data&classe=".$_GET['classe']."\" title=\"Vedi tutti\"><div class=\"nota multipla\">Sono presenti ".$num_rows." eventi...</div></a>";
+                                        }
+                                    
+                                    
+                                    }
+                                }
+                            }
+
+                            if($data == $oggi)
+                            {
+                                echo "<td class=\"oggi\" onclick=\"newEvent(".$data.")\"><span class=\"data\">".$day."</span>".$contenuto."</td>";
+                            } else {
+                                echo "<td onclick=\"newEvent(".$data.")\"><span class=\"data\">".$day."</span>".$contenuto."</td>";
+                            }
+                        }
+
+                        if($j%$cols==0)
+                        {
+                        echo "</tr>";
+                        }
+                    }
+
+                    // Se le celle dell'ultima riga sono meno di 7, se ne aggiungono altre
+                    if ($j<42) {
+                        // 36 = (7 colonne * 5 righe) + 1 perche' i e' minore, quindi deve arrivare fino a 35
+                        // 36 - $day = dal numero massimo di giorni possibili (35 + 1 di prima) tolgo i giorni del mese in corso
+                        // 36 - $day - $lunedi = dai giorni restanti tolgo quelli del mese prima e ottengo quelli del mese successivo
+                        // (giorni totali - giorni mese attuale - giorni mese precedente = giorni mese successivo)
+                        for($i=0; $i<36-$day-$lunedi;$i++) {
+                            echo "<td class=\"extra_day\"></td>";
+                        }
+                    }
+                    echo "</table>";
+                }
+                
+                // Richiamo la funzione del calendario
+                ShowCalendar(date("m"),date("Y"));
+                ?>
+                <script>
+                    function newEvent(data) {
+                        location.href = "nuovo?data=" + data;
+                    }
+                </script>
+            </div>
+            <?php
             }
             ?>
         </section>

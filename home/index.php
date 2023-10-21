@@ -65,40 +65,8 @@ $classe = $_GET['classe'];
             include '../components/header.php';
         ?>
         <center>
-            <?php
-            // Se è la prima volta che si accede alla piattaforma, vengono mostrate delle informazioni utitli per l'uso della piattaforma
-            /*if (!isset($_COOKIE['session_timestamp2_lele_planner_0425']) && isset($_SESSION['session_user_lele_planner_0425'])) {
-                setcookie('session_timestamp2_lele_planner_0425','true', time() + (86400 * 30),'/');
-                echo '<style>.guide {background: white; color: #333; min-width: 300px; width: 500px; padding-left: 30px; padding-right: 30px; padding: 20px; text-align: left; position: fixed; top: 45%; left: 42%; z-index: 15; box-shadow: 0 0 30px #333; z-index:50;}
-                .guide h3 {margin-top: 0;} .guide .material-icons {font-size: 16px;}
-                #bgblack {width: 100%; height: 100%; background: rgba(0,0,0,0.6); position: fixed; top:0; left:0; z-index:50;}</style>';
-                echo '<div id="bgblack" style="display: block;"></div>';
-                echo '<div class="guide" id="guide1" style="display: block;">';
-                echo '<h3>Inserire un nuovo evento</h3>';
-                echo 'Clicca su una casella del calendario per aggiungere un evento in quel giorno.<br><b>N.B.:</b> puoi farlo solo se prima hai eseguito l\'accesso all\'account.';
-                echo '<p><button onclick="nextSlide(1)">OK (1/4)</button></p>';
-                echo '</div>';
-                echo '<div class="guide" id="guide2" style="display: none;">';
-                echo '<h3>Visualizzare un evento</h3>';
-                echo 'Clicca sull\'evento che desideri visualizzare.<br><b>N.B.:</b> puoi farlo anche se prima non hai eseguito l\'accesso all\'account.';
-                echo '<p><button onclick="nextSlide(2)">OK (2/4)</button></p>';
-                echo '</div>';
-                echo '<div class="guide" id="guide3" style="display: none;">';
-                echo '<h3>Visualizzare gli eventi del mese precedente/successivo</h3>';
-                echo 'Per visualizzare gli eventi del mese precedente o di quello successivo, clicca sulle frecce ai lati del mese (sotto la scritta <i>'.$nome_app.'</i>).<br>Con <span class="material-icons">arrow_back_ios</span> torni al mese precedente, mentre con <span class="material-icons">arrow_forward_ios</span> passi al mese successivo';
-                echo '<p><button onclick="nextSlide(3)">OK (3/4)</button></p>';
-                echo '</div>';
-                echo '<div class="guide" id="guide4" style="display: none;">';
-                echo '<h3>Visualizzare le informazioni dell\'account e cambiare la password</h3>';
-                echo 'Per visualizzare le informazioni dell\'account o per modificare la password, cliccare su <span class="material-icons">manage_accounts</span> <b>Gestisci il tuo account</b> che compare quando si passa con il mouse sul proprio nome (colorato di rosa).';
-                echo '<p><button onclick="closeAll();nextSlide(4)">OK (4/4)</button></p>';
-                echo '</div>';
-                echo '<script>function nextSlide(slide) {document.getElementById("guide"+slide).style.display="none"; document.getElementById("guide"+(slide+1)).style.display="block";}';
-                echo 'function closeAll() {document.getElementById("bgblack").style.display = "none";}</script>';
-            }*/
-            ?>
             <section class="container">
-            <h1>Classe <?php echo $classe; ?></h1>
+            <h1>Calendario <?php echo $classe; ?></h1>
             <div class="tabel">
                 <?php
                 function ShowCalendar($m,$y)
@@ -184,7 +152,7 @@ $classe = $_GET['classe'];
                             $db = 'eventoo_planner';
                             $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                             
-                            $result = mysqli_query($conn,"SELECT data FROM planner WHERE classe='".$_GET['classe']."'") or die (mysqli_error($conn));
+                            $result = mysqli_query($conn,"SELECT data FROM planner WHERE classe LIKE '%".$_GET['classe']."%'") or die (mysqli_error($conn));
 
                             if(mysqli_num_rows($result) > 0)
                             {
@@ -193,7 +161,7 @@ $classe = $_GET['classe'];
                                     $str_data = $fetch['data'];
                                     if ($str_data == $data)
                                     {
-                                        $sql = "SELECT * FROM planner WHERE data=$str_data AND classe='".$_GET['classe']."'";
+                                        $sql = "SELECT * FROM planner WHERE data=$str_data AND classe LIKE '%".$_GET['classe']."%'";
                                         $result = mysqli_query($conn,$sql) or die (mysqli_error($conn));
                                         
                                         if(mysqli_num_rows($result) == 1)

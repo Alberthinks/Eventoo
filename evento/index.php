@@ -196,7 +196,11 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     }
                 }
             } elseif (isset($str_data) && is_numeric($str_data)) {
-                $sql = "SELECT * FROM planner WHERE data=$str_data AND classe='".$_GET['classe']."' ORDER BY ora_inizio";
+                if ($_GET['classe'] == "" || !isset($_GET['classe'])) {
+                    $sql = "SELECT * FROM planner WHERE data=$str_data ORDER BY ora_inizio";
+                } else {
+                    $sql = "SELECT * FROM planner WHERE data=$str_data AND classe LIKE '%".$_GET['classe']."%' ORDER BY ora_inizio";
+                }
                 $result = mysqli_query($conn,$sql) or die (mysqli_error($conn));
             ?>
             <h1><?php echo "Eventi del ".$data; ?></h1>

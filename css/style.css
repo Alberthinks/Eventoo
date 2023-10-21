@@ -1,6 +1,34 @@
 /* Planner */
 
 @import url('default.css');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+.second_menu {
+  background-color: var(--color-primary);
+  width: 100%; 
+  height: 50px; 
+  position: fixed; 
+  top: 93px; 
+  left: 0; 
+  right: 0; 
+  z-index: 20; 
+  display: flex; 
+  flex-direction: row;
+}
+
+.second_menu_btn {
+  color: white;
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 2px 2px 0 0;
+  transition: 0.2s;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+.second_menu_btn:hover {background-color: rgba(255, 255, 255, 0.2);}
+
+.second_menu_btn#selected {border-bottom: 3.5px solid white; font-weight: 500;}
 
 .cambia_mese {
 	border-radius: 50%;
