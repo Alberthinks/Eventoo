@@ -34,6 +34,7 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
             <tr>
                 <th>Classe</th>
                 <th>Indirizzo</th>
+                <th>Sede</th>
                 <th>Elimina</th>
             </tr>
             <?php
@@ -53,7 +54,7 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
             // Inizia la riga
             echo "<tr>";
             // Riempimento celle con i dati dell'ID e dello Username
-            for ($i = 0; $i < 2; $i++) {
+            for ($i = 0; $i < 3; $i++) {
                 $valore = $row[$i];
                 echo "<td>".cripta($valore, "decrypt")."</td>";
             }

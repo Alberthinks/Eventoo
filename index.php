@@ -95,19 +95,36 @@ include 'default.php';
             <?php
             // Siamo nella sezione "Eventi per classe"
             if ($view == "classi") {
-
-                echo "<h1 style='font-size: 32px; margin-bottom: 40px;'>Eventi per classe</h1>";
+                echo "<h1 style='font-size: 32px; margin-bottom: 40px; float: left;'>Eventi per classe</h1>";
+            ?>
+                <div style="float: right;">
+                    <select id='filtraSede' style='width: 210px; height: 30px; margin-right: 20px;' onchange='filtraSede()'>
+                        <option <?php if(!isset($_GET['sede'])) {echo "selected";} ?>></option>
+                        <option <?php if($_GET['sede'] == "Balzan") {echo "selected";} ?>>Balzan</option>
+                        <option <?php if($_GET['sede'] == "Einaudi") {echo "selected";} ?>>Einaudi</option>
+                        <option <?php if($_GET['sede'] == "Medie") {echo "selected";} ?>>Medie</option>
+                    </select>
+                </div>
+            <?php
+                echo "<script>function filtraSede() {var filtraSede = document.getElementById(\"filtraSede\"); location.href='?view=classi&sede=' + filtraSede.options[filtraSede.selectedIndex].text;}</script>";
                 $db = 'eventoo_users';
                 $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
-                $result = mysqli_query($conn,"SELECT * FROM classi ORDER BY indirizzo") or die (mysqli_error($conn));
+                if (isset($_GET['sede']) && $_GET['sede'] != "") {
+                    $result = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta($_GET['sede'], "encrypt")."' ORDER BY indirizzo") or die (mysqli_error($conn));
+                } else {
+                    $result = mysqli_query($conn,"SELECT * FROM classi ORDER BY indirizzo") or die (mysqli_error($conn));
+                }
+                
                 $row_cnt = mysqli_num_rows($result);
                 $conta = 0;
 
                 // Se non ci sono classi registrate
                 if ($row_cnt == 0) {
-                    echo "<i class='material-icons' style='font-size: 40px;'>group_off</i><br />Nessuna classe registrata";
+                    echo "<div style='margin-top: 120px; text-align: center; font-size: 30px;'><i class='material-icons' style='font-size: 60px;'>group_off</i><br />Nessuna classe registrata</div>";
                 } else {
+                    // Variabile che contiene il nome di tutte le classi per mostrare gli eventi in base all'indirizzo e non alla singola classe
+                    $indirizzo = "";
                     while($row = mysqli_fetch_row($result)) {
                         // Contatore per sapere se sono arrivato all'ultimo elemento
                         $conta++;
@@ -115,16 +132,26 @@ include 'default.php';
                         if ($row[1] == $indirizzo_prec) {
                             // Metto un separatore e aggiungo la classe attuale nello stesso panel di quella precedente
                             echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
+                            $indirizzo .= ",".cripta($row[0], "decrypt");
                             /* Altrimenti chiudo il panel della classe precedente e ne apro uno nuovo con
                             l'indirizzo della classe attuale */
                         } else {
+                            // Risolve il problema che causava la comparsa del link "Tutte le classi di indirizzo" tra il titolo e il 1° pulsante dell'accordion
+                            // Se la variabile $indirizzo e' vuota, allora non appartiene a nessun indirizzo
+                            if ($indirizzo != "") {
+                                echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".$indirizzo."'>Tutte le classi di indirizzo</a>";
+                                $indirizzo = "";
+                            }
                             echo "</div>";
                             echo "<button class=\"accordion\">".cripta($row[1], "decrypt")."</button>\n";
                             echo "<div class=\"panel\">\n";
                             echo "<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
+                            $indirizzo .= cripta($row[0], "decrypt");
                         }
                         // Se sono arrivato all'ultima classe chiudo il panel di questa classe
                         if ($conta == $row_cnt) {
+                            // Risolve il problema che non mostra il link "Tutte le classi di indirizzo" nell'ultimo panel dell'accordion
+                            echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".$indirizzo."'>Tutte le classi di indirizzo</a>";
                             echo "</div>";
                         }
                         $indirizzo_prec = $row[1];
@@ -214,7 +241,7 @@ include 'default.php';
                             $day= $j-($lunedi-1);
                             $data = strtotime(date($y."-".$m."-".$day));
                             $oggi = strtotime(date("Y-m-d"));
-                            $contenuto = " ";
+                            $contenuto = "";
                             
                             include 'config.php';
                             $db = 'eventoo_planner';
@@ -241,7 +268,7 @@ include 'default.php';
                                                 $data_evento = date("d-m-Y", $fetch['data']);
                                                 $ora = stripslashes($fetch['ora_inizio']);
                                                 $ora2 = stripslashes($fetch['ora_fine']);
-                                                $luogo = stripslashes($fetch['stanza']);
+                                                $classe = stripslashes($fetch['classe']);
                                                 $type = stripslashes($fetch['categoria']);
                                                 $filenameDelete = stripslashes($fetch['link_locandina']);
                                                 $validity = stripslashes($fetch['validity']);
@@ -260,7 +287,7 @@ include 'default.php';
                                                             <p class=\"title\" title=\"".$titolo."\">".$titolo."</p>
                                                             <p class=\"info_nota\">
                                                             <span title=\"".$ora." - ".$ora2."\"><i class=\"material-icons\">schedule</i>".$ora." - ".$ora2."</span><br>
-                                                            <span title=\"".$luogo."\"><i class=\"material-icons\">place</i>".$luogo."</span>
+                                                            <span title=\"".$classe."\"><i class=\"material-icons\">school</i>".$classe."</span>
                                                             </p>
                                                             </a>
                                                             </div>";
@@ -306,6 +333,12 @@ include 'default.php';
                         for($i=0; $i<36-$day-$lunedi;$i++) {
                             echo "<td class=\"extra_day\"></td>";
                         }
+                    } elseif ($j>=42) {
+                        echo "<tr>";
+                        for($i=0; $i<43-$day-$lunedi;$i++) {
+                            echo "<td class=\"extra_day\"></td>";
+                        }
+                        echo "</tr>";
                     }
                     echo "</table>";
                 }

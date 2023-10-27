@@ -27,10 +27,11 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
 
                 $id = cripta(addslashes($_POST['id']),'encrypt');
                 $indirizzo = cripta(addslashes($_POST['indirizzo']),'encrypt');
+                $sede = cripta(addslashes($_POST['sede']),'encrypt');
 
                 $conn = mysqli_connect($host,$user,$pass, "eventoo_users") or die (mysqli_error());
 
-                $sql = "INSERT INTO classi (id, indirizzo) VALUES ('$id', '$indirizzo')";
+                $sql = "INSERT INTO classi (id, indirizzo, sede) VALUES ('$id', '$indirizzo', '$sede')";
 
 			    if($result = mysqli_query($conn,$sql) or die (mysqli_error($conn))) {
                     echo "<script>location.href = \"../\";</script>";
@@ -51,6 +52,13 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
             <br>
             <label for="indirizzo">Indirizzo:</label>
             <input type="text" name="indirizzo" id="indirizzo" placeholder="TECNICO INFORMATICO">
+            <br>
+            <select name="sede" style="font-family: 'Segoe UI'; font-size: 16px; height: 48px; width: 310px; border: 1px solid #c0c0c0; border-radius: 4px; box-sizing: border-box; padding-left: 16px; margin-bottom: 50px;" required>
+                <option disabled selected>Sede</option>
+                <option value="Balzan">Balzan</option>
+                <option value="Einaudi">Einaudi</option>
+                <option value="Medie">Medie (succursale)</option>
+            </select>
             <br>
             <input type="submit" name="confirm" value="Salva" style="padding: 0; background: green; color: #fff; border: none; width: 140px; height: 40px;">
             <input type="reset" name="cancel" onclick="history.back()" style="padding: 0; background: red; color: #fff; border: none; width: 140px; height: 40px;" value="Annulla">

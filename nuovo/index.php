@@ -310,6 +310,66 @@ $permessi = $_SESSION['session_permessi_eventoo'];
             }
         }
         </script>
+
+        <?php
+            $db = 'eventoo_users';
+            $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
+            $query = mysqli_query($conn,"SELECT * FROM classi ORDER BY sede") or die (mysqli_error($conn));
+            $arrayClassi = "";
+            if(mysqli_num_rows($query) > 0) {
+                $conta = 0;
+                while($fetch = mysqli_fetch_array($query)) {
+                    $conta++;
+                    if ($conta == mysqli_num_rows($query)) {
+                        $arrayClassi .= "\"".stripslashes(cripta($fetch['id'], "decrypt"))."\"";
+                    } else {
+                        $arrayClassi .= "\"".stripslashes(cripta($fetch['id'], "decrypt"))."\",";
+                    }
+                }
+            }
+
+            $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", encrypt)."'") or die (mysqli_error($conn));
+            $classiBalzan = "";
+            if(mysqli_num_rows($query) > 0) {
+                $conta = 0;
+                while($fetch = mysqli_fetch_array($query)) {
+                    $conta++;
+                    if ($conta == mysqli_num_rows($query)) {
+                        $classiBalzan .= stripslashes(cripta($fetch['id'], "decrypt"));
+                    } else {
+                        $classiBalzan .= stripslashes(cripta($fetch['id'], "decrypt")).",";
+                    }
+                }
+            }
+
+            $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", encrypt)."'") or die (mysqli_error($conn));
+            $classiEinaudi = "";
+            if(mysqli_num_rows($query) > 0) {
+                $conta = 0;
+                while($fetch = mysqli_fetch_array($query)) {
+                    $conta++;
+                    if ($conta == mysqli_num_rows($query)) {
+                        $classiEinaudi .= stripslashes(cripta($fetch['id'], "decrypt"));
+                    } else {
+                        $classiEinaudi .= stripslashes(cripta($fetch['id'], "decrypt")).",";
+                    }
+                }
+            }
+
+            $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", encrypt)."'") or die (mysqli_error($conn));
+            $classiMedie = "";
+            if(mysqli_num_rows($query) > 0) {
+                $conta = 0;
+                while($fetch = mysqli_fetch_array($query)) {
+                    $conta++;
+                    if ($conta == mysqli_num_rows($query)) {
+                        $classiMedie .= stripslashes(cripta($fetch['id'], "decrypt"));
+                    } else {
+                        $classiMedie .= stripslashes(cripta($fetch['id'], "decrypt")).",";
+                    }
+                }
+            }
+        ?>
         <script>
         function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
@@ -342,7 +402,26 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                 /*execute a function when someone clicks on the item value (DIV element):*/
                 b.addEventListener("click", function(e) {
                     /*insert the value for the autocomplete text field:*/
-                    inp.value = this.getElementsByTagName("input")[0].value;
+                    var autocompleteText = this.getElementsByTagName("input")[0].value;
+                    var outputText = "";
+
+                    /* Se si crea l'evento per tutta la sede, il db deve conoscere le classi alle quali si fa
+                    riferimento, per mostrare l'evento nei rispettivi calendari */
+                    switch (autocompleteText) {
+                        case "Balzan":
+                            outputText = "<?php echo $classiBalzan; ?>";
+                            break;
+                        case "Einaudi":
+                            outputText = "<?php echo $classiEinaudi; ?>";
+                            break;
+                        case "Medie":
+                            outputText = "<?php echo $classiMedie; ?>";
+                            break;
+                        default:
+                            outputText = autocompleteText;
+                    }
+                    inp.value = outputText;
+
                     /*close the list of autocompleted values,
                     (or any other open lists of autocompleted values:*/
                     closeAllLists();
@@ -361,7 +440,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                 currentFocus++;
                 /*and and make the current item more visible:*/
                 addActive(x);
-            } else if (e.keyCode == 38) { //up
+            } else if (e.keyCode == 38) {
                 /*If the arrow UP key is pressed,
                 decrease the currentFocus variable:*/
                 currentFocus--;
@@ -374,6 +453,10 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                 /*and simulate a click on the "active" item:*/
                 if (x) x[currentFocus].click();
                 }
+            } else if (e.keyCode == 44) {
+                /*If the COMMA  key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                alert(",");
             }
         });
         function addActive(x) {
@@ -409,12 +492,14 @@ $permessi = $_SESSION['session_permessi_eventoo'];
         }
 
         /*An array containing all the country names in the world:*/
-        var luoghi = ["Aula Magna - sede Balzan", "Aula Magna - sede Einaudi", "Palestra - sede Balzan", "Palestra - sede Einaudi","Aula"];
+        var luoghi = ["Aula Magna - sede Balzan", "Aula Magna - sede Einaudi", "Palestra - sede Balzan", "Palestra - sede Einaudi","Aula","Cortile"];
+        var classi = [<?php echo $arrayClassi; ?>,"Balzan", "Einaudi", "Medie"];
         var tipi = ["Lezione","Spettaccolo","Colloqui","Uscita didattica","P.C.T.O.","Assemblea di classe","Assemblea d'istituto","Collegio docenti","Riunione","Evento","Incontro informativo"];
 
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
         autocomplete(document.getElementById("luogo"), luoghi);
         autocomplete(document.getElementById("tipo"), tipi);
+        autocomplete(document.getElementById("classe"), classi);
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
