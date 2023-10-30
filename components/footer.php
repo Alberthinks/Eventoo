@@ -26,10 +26,15 @@ footer a {color: #ffffff;}
 <footer>
     <div class="footer-container">
       <div style="display: flex; justify-content: space-around;">
-        <div style="float: left; margin-right: 60px;">
-            Realizzato da Albertin Emanuele (5 B TI a.s. 2023/2024) per <a href="https://www.primolevi.edu.it/">I.I.S PRIMO LEVI di Badia Polesine</a>
+        <div style="float: left; margin-right: 60px; text-align: center;">
+            <b>Credits:</b>
+            <p>
+              Realizzato da Albertin Emanuele<br>
+              con Paun Catalin-Adrian<br>
+              per <a href="https://www.primolevi.edu.it/">I.I.S. PRIMO LEVI di Badia Polesine</a>
+            </p>
         </div>
-        <div style="float: right;">
+        <div style="float: right; margin-top: auto; margin-bottom: auto;">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLScwcfgt9F1rB2XKPg8Nwj8yz1meMTF4CqX5KTJsMRVBs1QI6g/viewform?usp=sf_link" target="_blank" style="text-align: left; text-decoration: underline; color: white;">Feedback</a>
         </div>
       </div>

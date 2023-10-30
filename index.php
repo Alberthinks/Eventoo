@@ -37,41 +37,42 @@ include 'default.php';
             .content_default {padding: 163px 30px 40px 30px; font-size: 18px;}
 
             .accordion {
-            background-color: var(--color-accordion-btn);
-            color: #444;
-            cursor: pointer;
-            padding: 18px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            transition: 0.4s;
+                background-color: var(--color-accordion-btn);
+                color: #444;
+                cursor: pointer;
+                padding: 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 15px;
+                transition: 0.4s;
             }
 
             .active, .accordion:hover {
-            background-color: var(--color-accordion-btn-active);
+                background-color: var(--color-accordion-btn-active);
             }
 
             .accordion:after {
-            content: '\25BC';
-            font-size: 12px;
-            color: #777;
-            font-weight: bold;
-            float: right;
-            margin-left: 5px;
+                content: '\25BC';
+                font-size: 12px;
+                color: #777;
+                font-weight: bold;
+                float: right;
+                margin-left: 5px;
             }
 
             .active:after {
-            content: "\25B2";
+                content: "\25B2";
             }
 
             .panel {
-            padding: 0 18px;
-            background-color: var(--color-accordion-bg);
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
+                padding: 0 18px;
+                background-color: var(--color-accordion-bg);
+                max-height: 0;
+                overflow-x: hidden;
+                overflow-y: auto;
+                transition: max-height 0.2s ease-out;
             }
 
             .panel a {color: black; text-decoration: none; transition: 0.2s; padding: 5px;}
@@ -282,7 +283,7 @@ include 'default.php';
                                             // Elimino record salvati da + di 2 anni
                                             $deleteSQL = mysqli_query($conn_calendar,"DELETE from planner WHERE validity <= CURDATE() - 20000") or die (mysqli_error($conn_calendar));
                                         
-                                            $contenuto = "<div class=\"nota\">
+                                            $contenuto = "<div class=\"nota\" style=\"margin-top: 5px;\">
                                                             <a href=\"evento/?id=$id\">
                                                             <p class=\"title\" title=\"".$titolo."\">".$titolo."</p>
                                                             <p class=\"info_nota\">
