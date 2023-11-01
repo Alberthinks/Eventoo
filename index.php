@@ -100,14 +100,14 @@ include 'default.php';
             ?>
                 <div style="float: right;">
                     <select id='filtraSede' style='width: 210px; height: 30px; margin-right: 20px;' onchange='filtraSede()'>
-                        <option <?php if(!isset($_GET['sede'])) {echo "selected";} ?>></option>
-                        <option <?php if($_GET['sede'] == "Balzan") {echo "selected";} ?>>Balzan</option>
-                        <option <?php if($_GET['sede'] == "Einaudi") {echo "selected";} ?>>Einaudi</option>
-                        <option <?php if($_GET['sede'] == "Medie") {echo "selected";} ?>>Medie</option>
+                        <option <?php if(!isset($_GET['sede'])) {echo "selected";} ?> value="">Tutte le sedi</option>
+                        <option <?php if($_GET['sede'] == "Balzan") {echo "selected";} ?> value="Balzan">Balzan</option>
+                        <option <?php if($_GET['sede'] == "Einaudi") {echo "selected";} ?> value="Einaudi">Einaudi</option>
+                        <option <?php if($_GET['sede'] == "Medie") {echo "selected";} ?> value="Medie">Medie</option>
                     </select>
                 </div>
             <?php
-                echo "<script>function filtraSede() {var filtraSede = document.getElementById(\"filtraSede\"); location.href='?view=classi&sede=' + filtraSede.options[filtraSede.selectedIndex].text;}</script>";
+                echo "<script>function filtraSede() {var filtraSede = document.getElementById(\"filtraSede\"); location.href='?view=classi&sede=' + filtraSede.options[filtraSede.selectedIndex].value;}</script>";
                 $db = 'eventoo_users';
                 $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
