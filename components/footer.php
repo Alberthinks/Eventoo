@@ -40,14 +40,13 @@ footer a {color: #ffffff;}
     <div class="footer-container">
       <div id="container">
         <div style="float: left; margin-right: 40px; text-align: center; padding: 30px;">
+          <b>&copy; <?php echo date('Y'); ?> - Istituto Istruzione Superiore PRIMO LEVI</b>
+          <br><br><br><br><br>
             <b>Credits:</b>
             <p>
               Realizzato da Albertin Emanuele<br>
-              con la partecipazione di Paun Catalin-Adrian<br>
-              per <a href="https://www.primolevi.edu.it/">I.I.S. PRIMO LEVI di Badia Polesine</a>
+              con la partecipazione di Paun Catalin-Adrian
             </p>
-            <br><br><br>
-            <p><b>Istituto Istruzione Superiore PRIMO LEVI</b></p>
             <br><br><br>
             <a href="https://docs.google.com/forms/d/e/1FAIpQLScwcfgt9F1rB2XKPg8Nwj8yz1meMTF4CqX5KTJsMRVBs1QI6g/viewform?usp=sf_link" target="_blank" style="text-align: left; text-decoration: underline; color: white;">Feedback</a>
         </div>
