@@ -43,7 +43,7 @@ footer a {color: #ffffff;}
             <b>Credits:</b>
             <p>
               Realizzato da Albertin Emanuele<br>
-              con Paun Catalin-Adrian<br>
+              con la partecipazione di Paun Catalin-Adrian<br>
               per <a href="https://www.primolevi.edu.it/">I.I.S. PRIMO LEVI di Badia Polesine</a>
             </p>
             <br><br><br>
