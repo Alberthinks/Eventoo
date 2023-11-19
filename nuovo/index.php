@@ -60,7 +60,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                 $ora_fine = writeRecord($_POST['ora_fine']);
                 $organizzatore = writeRecord($_POST['organizzatore']);
                 $luogo = writeRecord($_POST['luogo']);
-                $classe = writeRecord($_POST['classe']);
+                $classe = writeRecord($_POST['classe2']);
 
                 $categoria = writeRecord($_POST['tipo']);
                 $link_videoconferenza = writeRecord($_POST['link_prenotazione']);
@@ -222,7 +222,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                     <input
                                         type="text"
                                         id="classe"
-                                        name="classe"
+                                        name="classe2"
                                         class="long_input"
                                         value="<?php echo $get_classe; ?>"
                                         aria-labelledby="label-classe"
@@ -231,6 +231,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                     <label class="label" for="classe" id="label-classe">
                                         <div class="text">Classi interessate</div>
                                     </label>
+                                    <input type="hidden" value="" name="classe" id="classeHidden">
                                 </div>
                             </div>
                         </p>
@@ -371,6 +372,14 @@ $permessi = $_SESSION['session_permessi_eventoo'];
             }
         ?>
         <script>
+        // Copio il contenuto inserito nell'input con id="classe" all'interno dell'input nascosto con id="classeHidden"
+        document.getElementById("classe").addEventListener("input", function(e) {
+            const myArray = document.getElementById("classe").value.split(",");
+            document.getElementById("classeHidden").value = myArray[myArray.length-1];
+            console.log("hidden.value: " + document.getElementById("classeHidden").value);
+        });
+
+        // Funzione per autocompletamento
         function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
         the text field element and an array of possible autocompleted values:*/
@@ -453,10 +462,136 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                 /*and simulate a click on the "active" item:*/
                 if (x) x[currentFocus].click();
                 }
-            } else if (e.keyCode == 44) {
-                /*If the COMMA  key is pressed, prevent the form from being submitted,*/
+            }
+        });
+        function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+                x[i].parentNode.removeChild(x[i]);
+            }
+            }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+        }
+
+        
+
+        // Funzione per autocompletamento campo "Classi"
+        function autocompleteClassi(hidden, inp, arr) {
+        /*the autocomplete function takes two arguments,
+        the text field element and an array of possible autocompleted values:*/
+        var currentFocus;
+        var classiValue = "";
+        /*execute a function when someone writes in the text field:*/
+        inp.addEventListener("input", function(e) {
+            var a, b, i, val = hidden.value;
+            /*close any already open lists of autocompleted values*/
+            closeAllLists();
+            if (!val) { return false;}
+            currentFocus = -1;
+            /*create a DIV element that will contain the items (values):*/
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            /*append the DIV element as a child of the autocomplete container:*/
+            this.parentNode.appendChild(a);
+            /*for each item in the array...*/
+            for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                /*create a DIV element for each matching element:*/
+                b = document.createElement("DIV");
+                /*make the matching letters bold:*/
+                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                b.innerHTML += arr[i].substr(val.length);
+                /*insert a input field that will hold the current array item's value:*/
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function(e) {
+                    /*insert the value for the autocomplete text field:*/
+                    var autocompleteText = this.getElementsByTagName("input")[0].value;
+                    var outputText = "";
+
+                    /* Se si crea l'evento per tutta la sede, il db deve conoscere le classi alle quali si fa
+                    riferimento, per mostrare l'evento nei rispettivi calendari */
+                    switch (autocompleteText) {
+                        case "Balzan":
+                            outputText = "<?php echo $classiBalzan; ?>";
+                            break;
+                        case "Einaudi":
+                            outputText = "<?php echo $classiEinaudi; ?>";
+                            break;
+                        case "Medie":
+                            outputText = "<?php echo $classiMedie; ?>";
+                            break;
+                        default:
+                            outputText = autocompleteText;
+                    }
+                    classiValue += outputText + ",";
+                    inp.value = classiValue;
+                    hidden.value = outputText;
+                    inp.focus();
+
+                    /*close the list of autocompleted values,
+                    (or any other open lists of autocompleted values:*/
+                    closeAllLists();
+                });
+                a.appendChild(b);
+                }
+            }
+        });
+        /*execute a function presses a key on the keyboard:*/
+        inp.addEventListener("keydown", function(e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 38) {
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
                 e.preventDefault();
-                alert(",");
+                if (currentFocus > -1) {
+                /*and simulate a click on the "active" item:*/
+                if (x) x[currentFocus].click();
+                }
+            } else if (e.keyCode == 188) {
+                /*If the COMMA  key is pressed, prevent the form from being submitted,*/
+                hidden.value = "";
+            } else if ((e.keyCode == 8) || (e.keyCode == 46)) {
+                console.log("CANC: " + inp.value);
+                classiValue = inp.value;
+                console.log("classiValue: " + classiValue);
             }
         });
         function addActive(x) {
@@ -499,7 +634,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
         autocomplete(document.getElementById("luogo"), luoghi);
         autocomplete(document.getElementById("tipo"), tipi);
-        autocomplete(document.getElementById("classe"), classi);
+        autocompleteClassi(document.getElementById("classeHidden"), document.getElementById("classe"), classi);
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>
