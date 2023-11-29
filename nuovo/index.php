@@ -123,7 +123,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                         $mysql = "INSERT INTO accesses (username,nome,cognome,ip,azione,timestamp,validity) VALUES ('$uname', '$name','$cog','$ip','$action','$timestamp','$dataValidity')";
 
                         if ($rressultt = mysqli_query($myconn,$mysql) or die (mysqli_error($myconn))) {
-                            echo "<script type=\"text/javascript\">location.replace(\"../home?classe=".$classe."\");</script>";
+                            echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
                         }
                     }
                 } elseif (file_exists($uploaddir.$userfile_name) && $userfile_name != "locandina_default.png") {
@@ -217,24 +217,199 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                         </p>
                         <p>
                             <!-- Classi interessate -->
+                            <?php
+                                $db = 'eventoo_users';
+                                $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
+                                $query = mysqli_query($conn,"SELECT * FROM classi") or die (mysqli_error($conn));
+                                $arrayClassi = null;
+                                if(mysqli_num_rows($query) > 0) {
+                                    $conta = 3;
+                                    $arrayClassi[0] = " ";
+                                    $arrayClassi[1] = " ";
+                                    $arrayClassi[2] = " ";
+                                    while($fetch = mysqli_fetch_array($query)) {
+                                        $arrayClassi[$conta] = stripslashes(cripta($fetch['id'], "decrypt"));
+                                        $conta++;
+                                    }
+                                    sort($arrayClassi);
+                                    $arrayClassi[0] = "Balzan";
+                                    $arrayClassi[1] = "Einaudi";
+                                    $arrayClassi[2] = "Medie";
+                                }
+                                ?>
                             <div class="input-container">
-                                <div class="autocomplete" style="width: 300px;">
-                                    <input
-                                        type="text"
-                                        id="classe"
-                                        name="classe2"
-                                        class="long_input"
-                                        value="<?php echo $get_classe; ?>"
-                                        aria-labelledby="label-classe"
-                                        oninput="manageTextInputStyle('classe')"
-                                    />
-                                    <label class="label" for="classe" id="label-classe">
-                                        <div class="text">Classi interessate</div>
-                                    </label>
-                                    <input type="hidden" value="" name="classe" id="classeHidden">
+                                <div id="myMultiselect" class="multiselect">
+                                    <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
+                                        <select class="form-select long_input" name="classe2" id="classe2" aria-labelledby="label-classi">
+                                        <option selected>Caricamento...</option>
+                                        </select>
+                                        <label for="classe2" class="fixed_label" id="label-classi">Classi interessate</label>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="mySelectOptions">
+                                        <?php
+                                            for ($x=0; $x<count($arrayClassi); $x++) {
+                                                switch ($x) {
+                                                    case 0:
+                                                        echo '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectBalzan()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                        break;
+                                                    case 1:
+                                                        echo '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectEinaudi()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                        break;
+                                                    case 2:
+                                                        echo '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectMedie()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                        break;
+                                                    default:
+                                                        echo '<label for="'.$arrayClassi[$x].'"><input type="checkbox" id="'.$arrayClassi[$x].'" onchange="checkboxStatusChange()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                }
+                                            }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </p>
+                        <script>
+                            window.onload = (event) => {
+                                initMultiselect();
+                            };
+
+                            function initMultiselect() {
+                                checkboxStatusChange();
+
+                                document.addEventListener("click", function(evt) {
+                                    var flyoutElement = document.getElementById('myMultiselect'),
+                                    targetElement = evt.target; // clicked element
+
+                                    do {
+                                        if (targetElement == flyoutElement) {
+                                            // This is a click inside. Do nothing, just return.
+                                            //console.log('click inside');
+                                            return;
+                                        }
+
+                                        // Go up the DOM
+                                        targetElement = targetElement.parentNode;
+                                    } while (targetElement);
+
+                                    // This is a click outside.
+                                    toggleCheckboxArea(true);
+                                    //console.log('click outside');
+                                });
+                            }
+
+                            function checkboxStatusChange() {
+                                var multiselect = document.getElementById("mySelectLabel");
+                                var multiselectOption = multiselect.getElementsByTagName('option')[0];
+
+                                var values = [];
+                                var checkboxes = document.getElementById("mySelectOptions");
+                                var checkedCheckboxes = checkboxes.querySelectorAll('input[type=checkbox]:checked');
+
+                                for (const item of checkedCheckboxes) {
+                                    var checkboxValue = item.getAttribute('value');
+                                    values.push(checkboxValue);
+                                }
+
+                                var dropdownValue = "Nessuna classe selezionata";
+                                if (values.length > 0) {
+                                    dropdownValue = values.join(', ');
+                                }
+
+                                multiselectOption.innerText = dropdownValue;
+                            }
+
+                            function toggleCheckboxArea(onlyHide = false) {
+                                var checkboxes = document.getElementById("mySelectOptions");
+                                var displayValue = checkboxes.style.display;
+
+                                if (displayValue != "block") {
+                                    if (onlyHide == false) {
+                                    checkboxes.style.display = "block";
+                                    }
+                                } else {
+                                    checkboxes.style.display = "none";
+                                }
+                            }
+
+                            justCheckedBalzan = false;
+                            justCheckedEinaudi = false;
+                            justCheckedMedie = false;
+
+                            function selectBalzan() {
+                                if (!justCheckedBalzan) {
+                                <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = true;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedBalzan = true;
+                                } else {
+                                    <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = false;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedBalzan = false;
+                                }
+                                checkboxStatusChange();
+                            }
+
+                            function selectEinaudi() {
+                                if (!justCheckedEinaudi) {
+                                <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = true;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedEinaudi = true;
+                                } else {
+                                    <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = false;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedEinaudi = false;
+                                }
+                                checkboxStatusChange();
+                            }
+
+                            function selectMedie() {
+                                if (!justCheckedMedie) {
+                                <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = true;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedMedie = true;
+                                } else {
+                                    <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = false;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedMedie = false;
+                                }
+                                checkboxStatusChange();
+                            }
+                        </script>
                         <p>
                         <!-- Tipo evento -->
                         <div class="input-container">
@@ -312,73 +487,8 @@ $permessi = $_SESSION['session_permessi_eventoo'];
         }
         </script>
 
-        <?php
-            $db = 'eventoo_users';
-            $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
-            $query = mysqli_query($conn,"SELECT * FROM classi ORDER BY sede") or die (mysqli_error($conn));
-            $arrayClassi = "";
-            if(mysqli_num_rows($query) > 0) {
-                $conta = 0;
-                while($fetch = mysqli_fetch_array($query)) {
-                    $conta++;
-                    if ($conta == mysqli_num_rows($query)) {
-                        $arrayClassi .= "\"".stripslashes(cripta($fetch['id'], "decrypt"))."\"";
-                    } else {
-                        $arrayClassi .= "\"".stripslashes(cripta($fetch['id'], "decrypt"))."\",";
-                    }
-                }
-            }
 
-            $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", encrypt)."'") or die (mysqli_error($conn));
-            $classiBalzan = "";
-            if(mysqli_num_rows($query) > 0) {
-                $conta = 0;
-                while($fetch = mysqli_fetch_array($query)) {
-                    $conta++;
-                    if ($conta == mysqli_num_rows($query)) {
-                        $classiBalzan .= stripslashes(cripta($fetch['id'], "decrypt"));
-                    } else {
-                        $classiBalzan .= stripslashes(cripta($fetch['id'], "decrypt")).",";
-                    }
-                }
-            }
-
-            $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", encrypt)."'") or die (mysqli_error($conn));
-            $classiEinaudi = "";
-            if(mysqli_num_rows($query) > 0) {
-                $conta = 0;
-                while($fetch = mysqli_fetch_array($query)) {
-                    $conta++;
-                    if ($conta == mysqli_num_rows($query)) {
-                        $classiEinaudi .= stripslashes(cripta($fetch['id'], "decrypt"));
-                    } else {
-                        $classiEinaudi .= stripslashes(cripta($fetch['id'], "decrypt")).",";
-                    }
-                }
-            }
-
-            $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", encrypt)."'") or die (mysqli_error($conn));
-            $classiMedie = "";
-            if(mysqli_num_rows($query) > 0) {
-                $conta = 0;
-                while($fetch = mysqli_fetch_array($query)) {
-                    $conta++;
-                    if ($conta == mysqli_num_rows($query)) {
-                        $classiMedie .= stripslashes(cripta($fetch['id'], "decrypt"));
-                    } else {
-                        $classiMedie .= stripslashes(cripta($fetch['id'], "decrypt")).",";
-                    }
-                }
-            }
-        ?>
         <script>
-        // Copio il contenuto inserito nell'input con id="classe" all'interno dell'input nascosto con id="classeHidden"
-        document.getElementById("classe").addEventListener("input", function(e) {
-            const myArray = document.getElementById("classe").value.split(",");
-            document.getElementById("classeHidden").value = myArray[myArray.length-1];
-            console.log("hidden.value: " + document.getElementById("classeHidden").value);
-        });
-
         // Funzione per autocompletamento
         function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
@@ -496,139 +606,8 @@ $permessi = $_SESSION['session_permessi_eventoo'];
         });
         }
 
-        
-
-        // Funzione per autocompletamento campo "Classi"
-        function autocompleteClassi(hidden, inp, arr) {
-        /*the autocomplete function takes two arguments,
-        the text field element and an array of possible autocompleted values:*/
-        var currentFocus;
-        var classiValue = "";
-        /*execute a function when someone writes in the text field:*/
-        inp.addEventListener("input", function(e) {
-            var a, b, i, val = hidden.value;
-            /*close any already open lists of autocompleted values*/
-            closeAllLists();
-            if (!val) { return false;}
-            currentFocus = -1;
-            /*create a DIV element that will contain the items (values):*/
-            a = document.createElement("DIV");
-            a.setAttribute("id", this.id + "autocomplete-list");
-            a.setAttribute("class", "autocomplete-items");
-            /*append the DIV element as a child of the autocomplete container:*/
-            this.parentNode.appendChild(a);
-            /*for each item in the array...*/
-            for (i = 0; i < arr.length; i++) {
-                /*check if the item starts with the same letters as the text field value:*/
-                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-                /*create a DIV element for each matching element:*/
-                b = document.createElement("DIV");
-                /*make the matching letters bold:*/
-                b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                b.innerHTML += arr[i].substr(val.length);
-                /*insert a input field that will hold the current array item's value:*/
-                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                /*execute a function when someone clicks on the item value (DIV element):*/
-                b.addEventListener("click", function(e) {
-                    /*insert the value for the autocomplete text field:*/
-                    var autocompleteText = this.getElementsByTagName("input")[0].value;
-                    var outputText = "";
-
-                    /* Se si crea l'evento per tutta la sede, il db deve conoscere le classi alle quali si fa
-                    riferimento, per mostrare l'evento nei rispettivi calendari */
-                    switch (autocompleteText) {
-                        case "Balzan":
-                            outputText = "<?php echo $classiBalzan; ?>";
-                            break;
-                        case "Einaudi":
-                            outputText = "<?php echo $classiEinaudi; ?>";
-                            break;
-                        case "Medie":
-                            outputText = "<?php echo $classiMedie; ?>";
-                            break;
-                        default:
-                            outputText = autocompleteText;
-                    }
-                    classiValue += outputText + ",";
-                    inp.value = classiValue;
-                    hidden.value = outputText;
-                    inp.focus();
-
-                    /*close the list of autocompleted values,
-                    (or any other open lists of autocompleted values:*/
-                    closeAllLists();
-                });
-                a.appendChild(b);
-                }
-            }
-        });
-        /*execute a function presses a key on the keyboard:*/
-        inp.addEventListener("keydown", function(e) {
-            var x = document.getElementById(this.id + "autocomplete-list");
-            if (x) x = x.getElementsByTagName("div");
-            if (e.keyCode == 40) {
-                /*If the arrow DOWN key is pressed,
-                increase the currentFocus variable:*/
-                currentFocus++;
-                /*and and make the current item more visible:*/
-                addActive(x);
-            } else if (e.keyCode == 38) {
-                /*If the arrow UP key is pressed,
-                decrease the currentFocus variable:*/
-                currentFocus--;
-                /*and and make the current item more visible:*/
-                addActive(x);
-            } else if (e.keyCode == 13) {
-                /*If the ENTER key is pressed, prevent the form from being submitted,*/
-                e.preventDefault();
-                if (currentFocus > -1) {
-                /*and simulate a click on the "active" item:*/
-                if (x) x[currentFocus].click();
-                }
-            } else if (e.keyCode == 188) {
-                /*If the COMMA  key is pressed, prevent the form from being submitted,*/
-                hidden.value = "";
-            } else if ((e.keyCode == 8) || (e.keyCode == 46)) {
-                console.log("CANC: " + inp.value);
-                classiValue = inp.value;
-                console.log("classiValue: " + classiValue);
-            }
-        });
-        function addActive(x) {
-            /*a function to classify an item as "active":*/
-            if (!x) return false;
-            /*start by removing the "active" class on all items:*/
-            removeActive(x);
-            if (currentFocus >= x.length) currentFocus = 0;
-            if (currentFocus < 0) currentFocus = (x.length - 1);
-            /*add class "autocomplete-active":*/
-            x[currentFocus].classList.add("autocomplete-active");
-        }
-        function removeActive(x) {
-            /*a function to remove the "active" class from all autocomplete items:*/
-            for (var i = 0; i < x.length; i++) {
-            x[i].classList.remove("autocomplete-active");
-            }
-        }
-        function closeAllLists(elmnt) {
-            /*close all autocomplete lists in the document,
-            except the one passed as an argument:*/
-            var x = document.getElementsByClassName("autocomplete-items");
-            for (var i = 0; i < x.length; i++) {
-            if (elmnt != x[i] && elmnt != inp) {
-                x[i].parentNode.removeChild(x[i]);
-            }
-            }
-        }
-        /*execute a function when someone clicks in the document:*/
-        document.addEventListener("click", function (e) {
-            closeAllLists(e.target);
-        });
-        }
-
         /*An array containing all the country names in the world:*/
         var luoghi = ["Aula Magna - sede Balzan", "Aula Magna - sede Einaudi", "Palestra - sede Balzan", "Palestra - sede Einaudi","Aula","Cortile"];
-        var classi = [<?php echo $arrayClassi; ?>,"Balzan", "Einaudi", "Medie"];
         var tipi = ["Lezione","Spettaccolo","Colloqui","Uscita didattica","P.C.T.O.","Assemblea di classe","Assemblea d'istituto","Collegio docenti","Riunione","Evento","Incontro informativo"];
 
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/

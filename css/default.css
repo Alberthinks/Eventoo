@@ -68,7 +68,7 @@ a {
 	position: relative;
 }
   
-input {
+input, select {
 	height: 48px;
 	width: 310px;
 	border: 1px solid #c0c0c0;
@@ -77,7 +77,11 @@ input {
 	padding: 16px;
 }
 
-  .long_input {width: 620px;}
+select {
+	padding: 12px 16px;
+}
+
+  .long_input, .multiselect, .selectBox, select {width: 620px !important;}
   
   .label, .fixed_label {
 	position: absolute;
@@ -95,7 +99,7 @@ input {
 	font-size: 16px;
   }
   
-  input:focus {
+  input:focus, select:focus {
 	outline: none;
 	border: 2px solid var(--color-input-focus);
   }
@@ -124,3 +128,54 @@ input {
   .label .text {
 	transition: all 0.15s ease-out;
   }
+
+  
+  .multiselect {
+	width: 100%;
+	}
+
+	.selectBox {
+	position: relative;
+	}
+
+	.selectBox select {
+	width: 100%;
+	}
+
+	.overSelect {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	}
+
+	#mySelectOptions {
+	display: none;
+	border: 0.5px #7c7c7c solid;
+	background-color: #ffffff;
+	max-height: 150px;
+	overflow-y: scroll;
+	}
+
+	#mySelectOptions label {
+	display: block;
+	font-weight: normal;
+	display: block;
+	white-space: nowrap;
+	min-height: 1.2em;
+	background-color: #ffffff00;
+	padding: 0 2.25rem 0 .75rem;
+	user-select: none;
+	/* padding: .375rem 2.25rem .375rem .75rem; */
+	}
+
+	#mySelectOptions label:hover {
+	background-color: var(--color-primary);
+	color: #ffffff;
+	}
+	
+	input[type=checkbox] {
+		width: initial;
+		height: initial;
+	}

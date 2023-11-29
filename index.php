@@ -78,6 +78,17 @@ include 'default.php';
             .panel a {color: black; text-decoration: none; transition: 0.2s; padding: 5px;}
             .panel a:hover {background: rgba(255, 255, 255, 0.4);}
         </style>
+        <!-- Scorciatoie da tastiera -->
+        <script>
+            document.addEventListener("keydown", function(event){
+                if (event.key == "ArrowLeft"){
+                    document.getElementById("mesePrec").click();
+                }
+                if (event.key == "ArrowRight"){
+                    document.getElementById("meseSucc").click();
+                }
+            });
+        </script>
     </head>
     <body>
         <?php
@@ -99,7 +110,7 @@ include 'default.php';
                 echo "<h1 style='font-size: 32px; margin-bottom: 40px; float: left;'>Eventi per classe</h1>";
             ?>
                 <div style="float: right;">
-                    <select id='filtraSede' style='width: 210px; height: 30px; margin-right: 20px;' onchange='filtraSede()'>
+                    <select id='filtraSede' style='width: 320px !important; height: 30px; margin-right: 20px; padding: initial;' onchange='filtraSede()'>
                         <option <?php if(!isset($_GET['sede'])) {echo "selected";} ?> value="">Tutte le sedi</option>
                         <option <?php if($_GET['sede'] == "Balzan") {echo "selected";} ?> value="Balzan">Balzan</option>
                         <option <?php if($_GET['sede'] == "Einaudi") {echo "selected";} ?> value="Einaudi">Einaudi</option>
@@ -212,13 +223,13 @@ include 'default.php';
                     echo "<table style=\"margin-left: auto; margin-right: auto;\">\n"; 
                     echo "<tr>\n
                     <th class=\"mese\" colspan=\"2\">\n
-                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=".$precedente."\">arrow_back_ios</a>\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" id=\"mesePrec\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=".$precedente."\">arrow_back_ios</a>\n
                     </th>\n
                     <th class=\"mese\" colspan=\"3\">\n
                     " . $nomi_mesi[$m-1] . " " . $y . "
                     </th>\n
                     <th class=\"mese\" colspan=\"2\">
-                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" href=\"?d=".$successivo."\">arrow_forward_ios</a>\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" id=\"meseSucc\" href=\"?d=".$successivo."\">arrow_forward_ios</a>\n
                     </th>\n
                     </tr>\n";
                     foreach($nomi_giorni as $v)
@@ -375,12 +386,6 @@ include 'default.php';
         }
         </script>
         <?php
-        /*} else {
-            echo "<h1 style='margin-bottom: 20px;'><i class='material-icons'>engineering</i> Sezione in realizzazione</h1>
-                    <p>Questa sezione &egrave; ancora in fase di realizzazione. Quando sar&agrave; pronta e attivata la Prenotazione laboratori, la potrai trovare qui.<br>
-                    Per saperne di pi&ugrave; contatta l'amministratore della piattaforma.</p>";
-            echo "</section>";
-        }*/
         include 'components/footer.php';
         ?>
     </body>

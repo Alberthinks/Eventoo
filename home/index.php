@@ -57,6 +57,17 @@ $classe = $_GET['classe'];
         <link rel="stylesheet" href="../css/default.css" type="text/css">
         <link rel="stylesheet" href="../css/style.css" type="text/css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <!-- Scorciatoie da tastiera -->
+        <script>
+            document.addEventListener("keydown", function(event){
+                if (event.key == "ArrowLeft"){
+                    document.getElementById("mesePrec").click();
+                }
+                if (event.key == "ArrowRight"){
+                    document.getElementById("meseSucc").click();
+                }
+            });
+        </script>
     </head>
     <body>
         <!-- Header -->
@@ -116,13 +127,13 @@ $classe = $_GET['classe'];
                     echo "<table>\n"; 
                     echo "<tr>\n
                     <th class=\"mese\" colspan=\"2\">\n
-                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=" . $precedente . "&classe=".$_GET['classe']."\">arrow_back_ios</a>\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese precedente\" id=\"mesePrec\" style=\"padding-left: 10px; padding-right: 0;\" href=\"?d=" . $precedente . "&classe=".$_GET['classe']."\">arrow_back_ios</a>\n
                     </th>\n
                     <th class=\"mese\" colspan=\"3\">\n
                     " . $nomi_mesi[$m-1] . " " . $y . "
                     </th>\n
                     <th class=\"mese\" colspan=\"2\">
-                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" href=\"?d=" . $successivo . "&classe=".$_GET['classe']."\">arrow_forward_ios</a>\n
+                    <a class=\"cambia_mese material-icons\" title=\"Mese successivo\" id=\"meseSucc\" href=\"?d=" . $successivo . "&classe=".$_GET['classe']."\">arrow_forward_ios</a>\n
                     </th>\n
                     </tr>\n";
                     foreach($nomi_giorni as $v)

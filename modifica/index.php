@@ -76,7 +76,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                 $data = strtotime(writeRecord($_POST['data']));
                 $ora_inizio = writeRecord($_POST['ora_inizio']);
                 $ora_fine = writeRecord($_POST['ora_fine']);
-                $classe = writeRecord($_POST['classe']);
+                $classe2 = writeRecord($_POST['classe2']);
                 $luogo = writeRecord($_POST['luogo']);
                 $tipo = writeRecord($_POST['tipo']);
                 $link_prenotazione = writeRecord($_POST['link_prenotazione']);
@@ -114,12 +114,12 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         exit;
                     }
 
-                    $sql_changeEvent = "UPDATE planner SET titolo='$titolo', descrizione='$descrizione', data='$data', ora_inizio='$ora_inizio', ora_fine='$ora_fine', classe='$classe', stanza='$luogo', categoria='$tipo', link_videoconferenza='$link_prenotazione', link_locandina='$userfile_name', data_modifica='$data_modifica' WHERE id = '$post_id'";
+                    $sql_changeEvent = "UPDATE planner SET titolo='$titolo', descrizione='$descrizione', data='$data', ora_inizio='$ora_inizio', ora_fine='$ora_fine', classe='$classe2', stanza='$luogo', categoria='$tipo', link_videoconferenza='$link_prenotazione', link_locandina='$userfile_name', data_modifica='$data_modifica' WHERE id = '$post_id'";
                     
                     if (!file_exists($uploaddir.$userfile_name) && move_uploaded_file($userfile_tmp, $uploaddir.$userfile_name)) {  // Carico il file nella cartella delle locandine
                         if ($result = mysqli_query($conn,$sql_changeEvent) or die (mysqli_error($conn))) {
                             if ($rressultt = mysqli_query($myconn,$mysql) or die (mysqli_error($myconn))) {         // Salvo la modifica dell'evento nella console di amministrazione
-                                echo "<script type=\"text/javascript\">location.replace(\"../home?classe=$classe\");</script>";
+                                echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
                             }
                         }
                         exit;
@@ -134,11 +134,11 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                 }
 
                 // Se NON e' stata modificata la locandina
-                $sql_changeEvent = "UPDATE planner SET titolo='$titolo', descrizione='$descrizione', data='$data', ora_inizio='$ora_inizio', ora_fine='$ora_fine', stanza='$luogo', classe='$classe', categoria='$tipo', link_videoconferenza='$link_prenotazione', data_modifica='$data_modifica' WHERE id = '$post_id'";
+                $sql_changeEvent = "UPDATE planner SET titolo='$titolo', descrizione='$descrizione', data='$data', ora_inizio='$ora_inizio', ora_fine='$ora_fine', stanza='$luogo', classe='$classe2', categoria='$tipo', link_videoconferenza='$link_prenotazione', data_modifica='$data_modifica' WHERE id = '$post_id'";
 
                 if($result = mysqli_query($conn,$sql_changeEvent) or die (mysqli_error($conn))) {
                     if($rressultt = mysqli_query($myconn,$mysql) or die (mysqli_error($myconn))) {
-                        echo "<script type=\"text/javascript\">location.replace(\"../home?classe=$classe\");</script>";
+                        echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
                     }
                 }
 
@@ -245,24 +245,250 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         </p>
                         <p>
                             <!-- Classi interessate -->
+                            <?php
+                                $db = 'eventoo_users';
+                                $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
+                                $myquery = mysqli_query($conn,"SELECT * FROM classi") or die (mysqli_error($conn));
+                                $arrayClassi = null;
+                                if(mysqli_num_rows($myquery) > 0) {
+                                    $conta = 3;
+                                    $arrayClassi[0] = " ";
+                                    $arrayClassi[1] = " ";
+                                    $arrayClassi[2] = " ";
+                                    while($fetch = mysqli_fetch_array($myquery)) {
+                                        $arrayClassi[$conta] = stripslashes(cripta($fetch['id'], "decrypt"));
+                                        $conta++;
+                                    }
+                                    sort($arrayClassi);
+                                    $arrayClassi[0] = "Balzan";
+                                    $arrayClassi[1] = "Einaudi";
+                                    $arrayClassi[2] = "Medie";
+                                }
+                                ?>
                             <div class="input-container">
-                                <div class="autocomplete" style="width: 300px;">
-                                    <input
-                                        type="text"
-                                        id="classe"
-                                        name="classe"
-                                        class="long_input"
-                                        value="<?php echo $classe; ?>"
-                                        aria-labelledby="label-classe"
-                                        oninput="manageTextInputStyle('classe')"
-                                        required
-                                    />
-                                    <label class="label" for="classe" id="label-classe">
-                                        <div class="text">Classi interessate</div>
-                                    </label>
+                                <div id="myMultiselect" class="multiselect">
+                                    <div id="mySelectLabel" class="selectBox" onclick="toggleCheckboxArea()">
+                                        <select class="form-select long_input" name="classe2" id="classe2" aria-labelledby="label-classi">
+                                            <option selected>Caricamento...</option>
+                                        </select>
+                                        <label for="classe2" class="fixed_label" id="label-classi">Classi interessate</label>
+                                        <div class="overSelect"></div>
+                                    </div>
+                                    <div id="mySelectOptions">
+                                        <?php
+                                            $classeArray = explode(", ",$classe);
+                                            $classeArrayString = "";
+                                            for ($x=0; $x<count($classeArray); $x++) {
+                                                if ($x != count($classeArray)-1)
+                                                    $classeArrayString .= "\"".$classeArray[$x]."\",";
+                                                else
+                                                    $classeArrayString .= "\"".$classeArray[$x]."\"";
+                                            }
+
+                                            $arrayClassiString = "";
+                                            for ($x=0; $x<count($arrayClassi); $x++) {
+                                                if ($x != count($arrayClassi)-1)
+                                                    $arrayClassiString .= "\"".$arrayClassi[$x]."\",";
+                                                else
+                                                    $arrayClassiString .= "\"".$arrayClassi[$x]."\"";
+                                            }
+                                            echo "<script>
+                                            var classeArray = [".$classeArrayString."];
+                                            var arrayClassi = [".$arrayClassiString."];
+
+                                            var i;
+                                            for (i=0; i<classeArray.length; i++) {
+                                                if (arrayClassi[i] == classeArray[i]) {
+                                                    //
+                                                }
+                                            }
+                                            console.log('".print_r($classeArray)."');</script>";
+
+                                            for ($x=0; $x<count($arrayClassi); $x++) {
+                                                // Creo l'array $arrayClassi2, che contiene gli elementi del <select>
+                                                /* Inizialmente considero che l'evento non appartenga a nessuna classe (nessun
+                                                checkbox selezionato), per semplificare il popolamento dell'array */
+                                                if ($x == 0) {          // Applico la funzione specifica per selezionare tutte le classi della sede Balzan
+                                                    $arrayClassi2[$x] = '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectBalzan()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                } else if ($x == 1) {   // Applico la funzione specifica per selezionare tutte le classi della sede Einaudi
+                                                    $arrayClassi2[$x] = '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectEinaudi()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                } else if ($x == 2) {   // Applico la funzione specifica per selezionare tutte le classi della sede Medie
+                                                    $arrayClassi2[$x] = '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectMedie()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                } else {                // Checkbox per le singole classi
+                                                    $arrayClassi2[$x] = '<label for="'.$arrayClassi[$x].'"><input type="checkbox" id="'.$arrayClassi[$x].'" onchange="checkboxStatusChange()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
+                                                }
+                                            }
+
+                                            /* Cerco le classi a cui e' stato assegnato l'evento, e sostituisco il contenuto
+                                            precedente della loro cella (checkbox deselezionato) con un checkbox selezionato */
+                                            foreach ($classeArray as $value) {
+                                                if (in_array($value, $arrayClassi)) {
+                                                    $i = array_search($value, $arrayClassi);
+                                                    
+                                                    if ($x == 0) {          // Applico la funzione specifica per selezionare tutte le classi della sede Balzan
+                                                        $arrayClassi2[$i] = '<label for="element'.$i.'"><input type="checkbox" id="element'.$i.'" onchange="selectBalzan()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
+                                                    } else if ($x == 1) {   // Applico la funzione specifica per selezionare tutte le classi della sede Einaudi
+                                                        $arrayClassi2[$i] = '<label for="element'.$i.'"><input type="checkbox" id="element'.$i.'" onchange="selectEinaudi()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
+                                                    } else if ($x == 2) {   // Applico la funzione specifica per selezionare tutte le classi della sede Medie
+                                                        $arrayClassi2[$i] = '<label for="element'.$i.'"><input type="checkbox" id="element'.$i.'" onchange="selectMedie()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
+                                                    } else {                // Checkbox per le singole classi
+                                                        $arrayClassi2[$i] = '<label for="'.$arrayClassi[$i].'"><input type="checkbox" id="'.$arrayClassi[$i].'" onchange="checkboxStatusChange()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
+                                                    }
+                                                }
+                                            }
+
+                                            // Scrivo il tutto nel <select>
+                                            for ($x=0; $x<count($arrayClassi2); $x++) {
+                                                echo $arrayClassi2[$x];
+                                                echo "<script>console.log('arrayClassi[x]: ".$arrayClassi2[$x]."   x: ".$x."');</script>";
+                                            }
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </p>
+                        <script>
+                            window.onload = (event) => {
+                                initMultiselect();
+                            };
+
+                            function initMultiselect() {
+                                checkboxStatusChange();
+
+                                document.addEventListener("click", function(evt) {
+                                    var flyoutElement = document.getElementById('myMultiselect'),
+                                    targetElement = evt.target; // clicked element
+
+                                    do {
+                                        if (targetElement == flyoutElement) {
+                                            // This is a click inside. Do nothing, just return.
+                                            //console.log('click inside');
+                                            return;
+                                        }
+
+                                        // Go up the DOM
+                                        targetElement = targetElement.parentNode;
+                                    } while (targetElement);
+
+                                    // This is a click outside.
+                                    toggleCheckboxArea(true);
+                                    //console.log('click outside');
+                                });
+                            }
+
+                            function checkboxStatusChange() {
+                                var multiselect = document.getElementById("mySelectLabel");
+                                var multiselectOption = multiselect.getElementsByTagName('option')[0];
+
+                                var values = [];
+                                var checkboxes = document.getElementById("mySelectOptions");
+                                var checkedCheckboxes = checkboxes.querySelectorAll('input[type=checkbox]:checked');
+
+                                for (const item of checkedCheckboxes) {
+                                    var checkboxValue = item.getAttribute('value');
+                                    values.push(checkboxValue);
+                                }
+
+                                var dropdownValue = "Nessuna classe selezionata";
+                                if (values.length > 0) {
+                                    dropdownValue = values.join(', ');
+                                }
+
+                                multiselectOption.innerText = dropdownValue;
+                            }
+
+                            function toggleCheckboxArea(onlyHide = false) {
+                                var checkboxes = document.getElementById("mySelectOptions");
+                                var displayValue = checkboxes.style.display;
+
+                                if (displayValue != "block") {
+                                    if (onlyHide == false) {
+                                    checkboxes.style.display = "block";
+                                    }
+                                } else {
+                                    checkboxes.style.display = "none";
+                                }
+                            }
+
+                            justCheckedBalzan = false;
+                            justCheckedEinaudi = false;
+                            justCheckedMedie = false;
+
+                            function selectBalzan() {
+                                if (!justCheckedBalzan) {
+                                <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = true;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedBalzan = true;
+                                } else {
+                                    <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = false;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedBalzan = false;
+                                }
+                                checkboxStatusChange();
+                            }
+
+                            function selectEinaudi() {
+                                if (!justCheckedEinaudi) {
+                                <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = true;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedEinaudi = true;
+                                } else {
+                                    <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = false;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedEinaudi = false;
+                                }
+                                checkboxStatusChange();
+                            }
+
+                            function selectMedie() {
+                                if (!justCheckedMedie) {
+                                <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = true;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedMedie = true;
+                                } else {
+                                    <?php
+                                    $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", "encrypt")."'") or die (mysqli_error($conn));
+                                    if(mysqli_num_rows($query) > 0) {
+                                        while($fetch = mysqli_fetch_array($query)) {
+                                            echo "document.getElementById('".cripta($fetch['id'], "decrypt")."').checked = false;";
+                                        }
+                                    }
+                                ?>
+                                justCheckedMedie = false;
+                                }
+                                checkboxStatusChange();
+                            }
+                        </script>
                         <p>
                         <!-- Tipo evento -->
                         <div class="input-container">
