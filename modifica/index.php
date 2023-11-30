@@ -277,32 +277,6 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                     <div id="mySelectOptions">
                                         <?php
                                             $classeArray = explode(", ",$classe);
-                                            $classeArrayString = "";
-                                            for ($x=0; $x<count($classeArray); $x++) {
-                                                if ($x != count($classeArray)-1)
-                                                    $classeArrayString .= "\"".$classeArray[$x]."\",";
-                                                else
-                                                    $classeArrayString .= "\"".$classeArray[$x]."\"";
-                                            }
-
-                                            $arrayClassiString = "";
-                                            for ($x=0; $x<count($arrayClassi); $x++) {
-                                                if ($x != count($arrayClassi)-1)
-                                                    $arrayClassiString .= "\"".$arrayClassi[$x]."\",";
-                                                else
-                                                    $arrayClassiString .= "\"".$arrayClassi[$x]."\"";
-                                            }
-                                            echo "<script>
-                                            var classeArray = [".$classeArrayString."];
-                                            var arrayClassi = [".$arrayClassiString."];
-
-                                            var i;
-                                            for (i=0; i<classeArray.length; i++) {
-                                                if (arrayClassi[i] == classeArray[i]) {
-                                                    //
-                                                }
-                                            }
-                                            console.log('".print_r($classeArray)."');</script>";
 
                                             for ($x=0; $x<count($arrayClassi); $x++) {
                                                 // Creo l'array $arrayClassi2, che contiene gli elementi del <select>
@@ -340,7 +314,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                             // Scrivo il tutto nel <select>
                                             for ($x=0; $x<count($arrayClassi2); $x++) {
                                                 echo $arrayClassi2[$x];
-                                                echo "<script>console.log('arrayClassi[x]: ".$arrayClassi2[$x]."   x: ".$x."');</script>";
+                                                //echo "<script>console.log('arrayClassi[x]: ".$arrayClassi2[$x]."   x: ".$x."');</script>";
                                             }
                                         ?>
                                     </div>
