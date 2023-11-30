@@ -67,12 +67,11 @@ include 'default.php';
             }
 
             .panel {
-                padding: 16px 25px;
                 background-color: var(--color-accordion-bg);
                 max-height: 0;
                 overflow-x: hidden;
                 overflow-y: auto;
-                transition: max-height 0.2s ease-out;
+                transition: 0.2s ease-out;
             }
 
             .panel a {color: black; text-decoration: none; transition: 0.2s; padding: 5px;}
@@ -379,8 +378,10 @@ include 'default.php';
             var panel = this.nextElementSibling;
             if (panel.style.maxHeight) {
             panel.style.maxHeight = null;
+            panel.style.padding = "0px";
             } else {
             panel.style.maxHeight = "60px";   //panel.scrollHeight + "px";
+            panel.style.padding = "16px 25px";
             } 
         });
         }
