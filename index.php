@@ -67,7 +67,7 @@ include 'default.php';
             }
 
             .panel {
-                padding: 0 18px;
+                padding: 16px 25px;
                 background-color: var(--color-accordion-bg);
                 max-height: 0;
                 overflow-x: hidden;
@@ -380,7 +380,7 @@ include 'default.php';
             if (panel.style.maxHeight) {
             panel.style.maxHeight = null;
             } else {
-            panel.style.maxHeight = "40px";   //panel.scrollHeight + "px";
+            panel.style.maxHeight = "60px";   //panel.scrollHeight + "px";
             } 
         });
         }
