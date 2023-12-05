@@ -475,10 +475,9 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                     value="<?php echo $tipo; ?>"
                                     aria-labelledby="label-tipo"
                                     oninput="manageTextInputStyle('tipo')"
-                                    required
                                 />
                                 <label class="label" for="tipo" id="label-tipo">
-                                    <div class="text">Categoria</div>
+                                    <div class="text">Categoria (facoltativo)</div>
                                 </label>
                             </div>
                         </div>

@@ -422,10 +422,9 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                     value=""
                                     aria-labelledby="label-tipo"
                                     oninput="manageTextInputStyle('tipo')"
-                                    required
                                 />
                                 <label class="label" for="tipo" id="label-tipo">
-                                    <div class="text">Categoria</div>
+                                    <div class="text">Categoria (facoltativo)</div>
                                 </label>
                             </div>
                         </div>
