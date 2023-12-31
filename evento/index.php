@@ -121,7 +121,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
                         echo "<div class=\"informazioni\">";
                         echo "<h2 class=\"titolo\">".$titolo."</h2>";
-                        echo "<span id=\"dots\" style=\"float: right; position: relative; top: 20px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione\">".$descrizione."</p><p><a id=\"descrizioneBtn\" href=\"#\">Espandi</a></p>\n";
+                        echo "<span id=\"dots\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione\">".$descrizione."</p><p><a id=\"descrizioneBtn\" style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" href=\"#\">Espandi</a></p>\n";
                         ?>
                         <script type="text/javascript">  
                             $(document).ready(function(){
@@ -152,9 +152,39 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         echo "<i class=\"material-icons\">calendar_today</i> <b>Data:</b> ".date("d/m/Y", $data)."<br>\n";
                         echo "<i class=\"material-icons\">schedule</i> <b>Ora:</b> ".$ora." - ".$durata."<br>\n";
                         echo "<i class=\"material-icons\">place</i> <b>Luogo:</b> ".$luogo."<br>\n";
-                        echo "<i class=\"material-icons\">event</i> <b>Categoria:</b> ".$tipo."<br>\n";
-                        echo "<i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."<br>\n";
+                        if (isset($tipo) && ($tipo != "")) {
+                            echo "<i class=\"material-icons\">event</i> <b>Categoria:</b> ".$tipo."<br>\n";
+                        }
                         
+                        echo "<span id=\"dots2".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" id=\"classeBtn".$id."\" href=\"#\">Mostra tutte le classi</a></p>\n";
+                        ?>
+                        <script type="text/javascript">  
+                            $(document).ready(function(){
+                                if ($("#classe<?php echo $id; ?>").height() > 50) {
+                                    $("#classeBtn<?php echo $id; ?>").show();
+                                    $("#dots2<?php echo $id; ?>").show();
+                                    $("#classe<?php echo $id; ?>").css("height","35px");
+                                } else {
+                                    $("#classeBtn<?php echo $id; ?>").hide();
+                                    $("#dots2<?php echo $id; ?>").hide();
+                                }
+                            });
+                            $("#classeBtn<?php echo $id; ?>").click(function(){
+                                if ($("#classe<?php echo $id; ?>").height() > 35) {
+                                    $("#classe<?php echo $id; ?>").css("height","35px");
+                                    $("#dots2<?php echo $id; ?>").show();
+                                    $("#classe<?php echo $id; ?>").css("text-overflow","ellipsis");
+                                    $("#classeBtn<?php echo $id; ?>").text("Mostra tutte le classi");
+                                } else {
+                                    $("#classe<?php echo $id; ?>").css("height","auto");
+                                    $("#dots2<?php echo $id; ?>").hide();
+                                    $("#classe<?php echo $id; ?>").css("text-overflow","clip");
+                                    $("#classeBtn<?php echo $id; ?>").text("Mostra alcune classi");
+                                }
+                            });
+                        </script>
+                        
+                        <?php
                         // Link per modificare/eliminare evento (visibili solo dall'amministratore e dall'organizzatore dell'evento)
                         if ($_SESSION['session_permessi_eventoo'] == "administration" || $_SESSION['session_permessi_eventoo'] == "maintenance" || $organizzatore == $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo']) {
                             echo "<p><a class=\"changeBtn\" href=\"../modifica/?id=$id\">Modifica</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a class=\"changeBtn\" href=\"../elimina/?id=$id&organizzatore=$organizzatore&data=$str_data\">Elimina</a></p>";
@@ -225,17 +255,8 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     echo "<section style='margin-top: 40px; overflow: hidden;'>";
                     echo "<div class=\"informazioni\">";
                     echo "<h2 class=\"titolo\">".$titolo."</h2>\n";
-                    echo "<i class=\"material-icons\">schedule</i> <b>Ora:</b> ".$ora_inizio." - ".$ora_fine."<br>\n";
-                    echo "<i class=\"material-icons\">place</i> <b>Luogo:</b> ".$luogo."<br>\n";
-                    echo "<i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."<br>\n";
-                    
-                    if ($descrizione != "") {
-                        $descrizione = ": ".$descrizione;
-                    }
-
                     // Descrizione dell'evento
-                    //echo "<span id=\"descrizioneBtn".$id."\" style=\"float: right; position: relative; top: 20px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione".$id."\"><b>".$tipo."</b>".$descrizione."</p><p><a id=\"descrizioneBtn".$id."\" href=\"#\">Espandi</a></p>\n";
-                    echo "<span id=\"dots".$id."\" style=\"float: right; position: relative; top: 20px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione".$id."\"><b>".$tipo."</b>".$descrizione."</p><p><a id=\"descrizioneBtn".$id."\" href=\"#\">Espandi</a></p>\n";
+                    echo "<span id=\"dots".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione".$id."\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" id=\"descrizioneBtn".$id."\" href=\"#\">Espandi</a></p>\n";
                     ?>
                     <script type="text/javascript">  
                         $(document).ready(function(){
@@ -261,9 +282,42 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                 $("#descrizioneBtn<?php echo $id; ?>").text("Comprimi");
                             }
                         });
-                    </script> 
+                    </script>
                     <?php
-
+                    echo "<i class=\"material-icons\">schedule</i> <b>Ora:</b> ".$ora_inizio." - ".$ora_fine."<br>\n";
+                    echo "<i class=\"material-icons\">place</i> <b>Luogo:</b> ".$luogo."<br>\n";
+                    if (isset($tipo) && ($tipo != "")) {
+                        echo "<i class=\"material-icons\">event</i> <b>Categoria:</b> ".$tipo."<br>\n";
+                    }
+                    echo "<span id=\"dots2".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" id=\"classeBtn".$id."\" href=\"#\">Mostra tutte le classi</a></p>\n";
+                    ?>
+                    <script type="text/javascript">  
+                        $(document).ready(function(){
+                            if ($("#classe<?php echo $id; ?>").height() > 50) {
+                                $("#classeBtn<?php echo $id; ?>").show();
+                                $("#dots2<?php echo $id; ?>").show();
+                                $("#classe<?php echo $id; ?>").css("height","35px");
+                            } else {
+                                $("#classeBtn<?php echo $id; ?>").hide();
+                                $("#dots2<?php echo $id; ?>").hide();
+                            }
+                        });
+                        $("#classeBtn<?php echo $id; ?>").click(function(){
+                            if ($("#classe<?php echo $id; ?>").height() > 35) {
+                                $("#classe<?php echo $id; ?>").css("height","35px");
+                                $("#dots2<?php echo $id; ?>").show();
+                                $("#classe<?php echo $id; ?>").css("text-overflow","ellipsis");
+                                $("#classeBtn<?php echo $id; ?>").text("Mostra tutte le classi");
+                            } else {
+                                $("#classe<?php echo $id; ?>").css("height","auto");
+                                $("#dots2<?php echo $id; ?>").hide();
+                                $("#classe<?php echo $id; ?>").css("text-overflow","clip");
+                                $("#classeBtn<?php echo $id; ?>").text("Mostra alcune classi");
+                            }
+                        });
+                    </script>
+                    
+                    <?php
                     if ($_SESSION['session_permessi_eventoo'] == "administration" || $_SESSION['session_permessi_eventoo'] == "maintenance" || $organizzatore == $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo']) {
                         echo "<p><a href=\"../modifica/?id=$id\" class=\"changeBtn\">Modifica</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href=\"../elimina/?id=$id&organizzatore=$organizzatore&data=$str_data\" class=\"changeBtn\">Elimina</a></p>";
                         echo "<b>Ultima modifica:</b> ".$data_modifica;

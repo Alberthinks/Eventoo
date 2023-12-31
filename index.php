@@ -134,8 +134,6 @@ include 'default.php';
                 if ($row_cnt == 0) {
                     echo "<div style='margin-top: 120px; text-align: center; font-size: 30px;'><i class='material-icons' style='font-size: 60px;'>group_off</i><br />Nessuna classe registrata</div>";
                 } else {
-                    // Variabile che contiene il nome di tutte le classi per mostrare gli eventi in base all'indirizzo e non alla singola classe
-                    $indirizzo = "";
                     while($row = mysqli_fetch_row($result)) {
                         // Contatore per sapere se sono arrivato all'ultimo elemento
                         $conta++;
@@ -143,27 +141,21 @@ include 'default.php';
                         if ($row[1] == $indirizzo_prec) {
                             // Metto un separatore e aggiungo la classe attuale nello stesso panel di quella precedente
                             echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
-                            $indirizzo .= ",".cripta($row[0], "decrypt");
                             /* Altrimenti chiudo il panel della classe precedente e ne apro uno nuovo con
                             l'indirizzo della classe attuale */
                         } else {
                             // Risolve il problema che causava la comparsa del link "Tutte le classi di indirizzo" tra il titolo e il 1° pulsante dell'accordion
                             // Se la variabile $indirizzo e' vuota, allora non appartiene a nessun indirizzo
-                            if ($indirizzo != "") {
-                                echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".$indirizzo."'>Tutte le classi di indirizzo</a>";
-                                $indirizzo = "";
-                            }
+                            
+                            // Se sono arrivato all'ultima classe chiudo il panel di questa classe
+                            /*if ($conta == ($row_cnt - 1)) {
+                                echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
+                                echo "</div>";
+                            }*/
                             echo "</div>";
                             echo "<button class=\"accordion\">".cripta($row[1], "decrypt")."</button>\n";
                             echo "<div class=\"panel\">\n";
                             echo "<a href='home?classe=".cripta($row[0], "decrypt")."'>".cripta($row[0], "decrypt")."</a>";
-                            $indirizzo .= cripta($row[0], "decrypt");
-                        }
-                        // Se sono arrivato all'ultima classe chiudo il panel di questa classe
-                        if ($conta == $row_cnt) {
-                            // Risolve il problema che non mostra il link "Tutte le classi di indirizzo" nell'ultimo panel dell'accordion
-                            echo "&nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;&nbsp;<a href='home?classe=".$indirizzo."'>Tutte le classi di indirizzo</a>";
-                            echo "</div>";
                         }
                         $indirizzo_prec = $row[1];
                     }

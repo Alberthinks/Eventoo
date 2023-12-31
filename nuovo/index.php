@@ -223,18 +223,20 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                 $query = mysqli_query($conn,"SELECT * FROM classi") or die (mysqli_error($conn));
                                 $arrayClassi = null;
                                 if(mysqli_num_rows($query) > 0) {
-                                    $conta = 3;
+                                    $conta = 4;
                                     $arrayClassi[0] = " ";
                                     $arrayClassi[1] = " ";
                                     $arrayClassi[2] = " ";
+                                    $arrayClassi[3] = " ";
                                     while($fetch = mysqli_fetch_array($query)) {
                                         $arrayClassi[$conta] = stripslashes(cripta($fetch['id'], "decrypt"));
                                         $conta++;
                                     }
                                     sort($arrayClassi);
-                                    $arrayClassi[0] = "Balzan";
-                                    $arrayClassi[1] = "Einaudi";
-                                    $arrayClassi[2] = "Medie";
+                                    $arrayClassi[0] = "Docenti";
+                                    $arrayClassi[1] = "Balzan";
+                                    $arrayClassi[2] = "Einaudi";
+                                    $arrayClassi[3] = "Medie";
                                 }
                                 ?>
                             <div class="input-container">
