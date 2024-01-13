@@ -313,11 +313,17 @@ include 'default.php';
                                 }
                             }
 
+                            $class = "";
+
+                            if ($_SESSION['session_user_eventoo'] != null || $_SESSION['session_user_eventoo'] != "") {
+                                $class = "class=\"td_hover\" onclick=\"newEvent(".$data.")\"";
+                            }
+
                             if($data == $oggi)
                             {
                                 echo "<td class=\"oggi\" onclick=\"newEvent(".$data.")\"><span class=\"data\">".$day."</span>".$contenuto."</td>";
                             } else {
-                                echo "<td onclick=\"newEvent(".$data.")\"><span class=\"data\">".$day."</span>".$contenuto."</td>";
+                                echo "<td ".$class."><span class=\"data\">".$day."</span>".$contenuto."</td>";
                             }
                         }
 
