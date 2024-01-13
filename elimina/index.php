@@ -81,7 +81,7 @@ $nome_societa = $_SESSION['session_permessi_eventoo'];
                             if ($filenameDelete != "locandina_default.png") {
                                 unlink("../evento/files/$filenameDelete");
                             }
-                            echo "<script type=\"text/javascript\">location.replace(\"../home?classe=".$_POST['classe']."\");</script>";
+                            echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
                         }
                     }
                 }

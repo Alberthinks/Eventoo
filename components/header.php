@@ -6,6 +6,31 @@ if ($_SESSION['session_foto_eventoo'] == "") {
 } else {
   $fotoProfilo = $_SESSION['session_foto_eventoo'];
 }
+
+$logoPlatform = "logo.png";
+$today = date("j m");
+
+if ($today == "20 12") {
+  $logoPlatform = "logo_natale.png";
+}
+if ($today == "21 12") {
+  $logoPlatform = "logo_natale.png";
+}
+if ($today == "22 12") {
+  $logoPlatform = "logo_natale.png";
+}
+if ($today == "23 12") {
+  $logoPlatform = "logo_natale.png";
+}
+if ($today == "24 12") {
+  $logoPlatform = "logo_natale.png";
+}
+if ($today == "25 12") {
+  $logoPlatform = "logo_natale.png";
+}
+if ($today == "31 10") {
+  $logoPlatform = "logo_halloween.png";
+}
 ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400&display=swap');
@@ -53,7 +78,7 @@ if ($_SESSION['session_foto_eventoo'] == "") {
 
 <header id="header">
     <div id="top_menu">
-        <div class="logo"><a href="<?php echo $base_url; ?>" title="Home"><img alt="Eventoo" src="<?php echo $base_url."logo.png"; ?>" draggable="false" id="logo"></a></div>
+        <div class="logo"><a href="<?php echo $base_url; ?>" title="Home"><img alt="Eventoo" src="<?php echo $base_url.$logoPlatform; ?>" draggable="false" id="logo"></a></div>
         <div class="dropdown">
             <?php
             if (isset($_SESSION['session_id_eventoo'])) {

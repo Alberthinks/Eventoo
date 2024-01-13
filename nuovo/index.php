@@ -252,13 +252,13 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                         <?php
                                             for ($x=0; $x<count($arrayClassi); $x++) {
                                                 switch ($x) {
-                                                    case 0:
+                                                    case 1:
                                                         echo '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectBalzan()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
                                                         break;
-                                                    case 1:
+                                                    case 2:
                                                         echo '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectEinaudi()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
                                                         break;
-                                                    case 2:
+                                                    case 3:
                                                         echo '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectMedie()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
                                                         break;
                                                     default:
