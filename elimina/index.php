@@ -81,7 +81,7 @@ $nome_societa = $_SESSION['session_permessi_eventoo'];
                             if ($filenameDelete != "locandina_default.png") {
                                 unlink("../evento/files/$filenameDelete");
                             }
-                            echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
+                            echo "<script type=\"text/javascript\">location.replace(\"../?d=".$_POST['data']."\");</script>";
                         }
                     }
                 }
@@ -116,6 +116,7 @@ $nome_societa = $_SESSION['session_permessi_eventoo'];
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])."?organizzatore=".$organizzatore; ?>">
                 <input type="hidden" value="<?php echo $id; ?>" name="del_id2">
                 <input type="hidden" value="<?php echo $classe; ?>" name="classe">
+                <input type="hidden" value="<?php echo stripslashes($fetch['data']); ?>" name="data">
                 <input type="hidden" value="<?php echo $fileName; ?>" name="filenameDelete">
                 <input type="submit" value="Sì" name="si">
                 <input type="reset" value="No" name="no" onclick="history.back();">

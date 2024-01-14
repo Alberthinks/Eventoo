@@ -119,7 +119,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     if (!file_exists($uploaddir.$userfile_name) && move_uploaded_file($userfile_tmp, $uploaddir.$userfile_name)) {  // Carico il file nella cartella delle locandine
                         if ($result = mysqli_query($conn,$sql_changeEvent) or die (mysqli_error($conn))) {
                             if ($rressultt = mysqli_query($myconn,$mysql) or die (mysqli_error($myconn))) {         // Salvo la modifica dell'evento nella console di amministrazione
-                                echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
+                                echo "<script type=\"text/javascript\">location.replace(\"../?d=".$data."\");</script>";
                             }
                         }
                         exit;
@@ -138,7 +138,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
                 if($result = mysqli_query($conn,$sql_changeEvent) or die (mysqli_error($conn))) {
                     if($rressultt = mysqli_query($myconn,$mysql) or die (mysqli_error($myconn))) {
-                        echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
+                        echo "<script type=\"text/javascript\">location.replace(\"../?d=".$data."\");</script>";
                     }
                 }
 

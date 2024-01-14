@@ -123,7 +123,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                         $mysql = "INSERT INTO accesses (username,nome,cognome,ip,azione,timestamp,validity) VALUES ('$uname', '$name','$cog','$ip','$action','$timestamp','$dataValidity')";
 
                         if ($rressultt = mysqli_query($myconn,$mysql) or die (mysqli_error($myconn))) {
-                            echo "<script type=\"text/javascript\">location.replace(\"../\");</script>";
+                            echo "<script type=\"text/javascript\">location.replace(\"../?d=".$data."\");</script>";
                         }
                     }
                 } elseif (file_exists($uploaddir.$userfile_name) && $userfile_name != "locandina_default.png") {
