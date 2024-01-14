@@ -284,11 +284,11 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                                 // Creo l'array $arrayClassi2, che contiene gli elementi del <select>
                                                 /* Inizialmente considero che l'evento non appartenga a nessuna classe (nessun
                                                 checkbox selezionato), per semplificare il popolamento dell'array */
-                                                if ($x == 0) {          // Applico la funzione specifica per selezionare tutte le classi della sede Balzan
+                                                if ($x == 1) {          // Applico la funzione specifica per selezionare tutte le classi della sede Balzan
                                                     $arrayClassi2[$x] = '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectBalzan()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
-                                                } else if ($x == 1) {   // Applico la funzione specifica per selezionare tutte le classi della sede Einaudi
+                                                } else if ($x == 2) {   // Applico la funzione specifica per selezionare tutte le classi della sede Einaudi
                                                     $arrayClassi2[$x] = '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectEinaudi()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
-                                                } else if ($x == 2) {   // Applico la funzione specifica per selezionare tutte le classi della sede Medie
+                                                } else if ($x == 3) {   // Applico la funzione specifica per selezionare tutte le classi della sede Medie
                                                     $arrayClassi2[$x] = '<label for="element'.$x.'"><input type="checkbox" id="element'.$x.'" onchange="selectMedie()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
                                                 } else {                // Checkbox per le singole classi
                                                     $arrayClassi2[$x] = '<label for="'.$arrayClassi[$x].'"><input type="checkbox" id="'.$arrayClassi[$x].'" onchange="checkboxStatusChange()" value="'.$arrayClassi[$x].'" /> '.$arrayClassi[$x].'</label>';
