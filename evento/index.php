@@ -394,9 +394,9 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                 easterScreen.style.backgroundColor = "#410810";
                 easterScreen.style.backgroundImage = "url('../img/sfondo_natale.png')";
 
-                const d = new Date();
-                d.setTime(d.getTime() + (1*24*60*60*1000));
-                let expires = "expires=" + d.toUTCString();
+                const day2 = new Date();
+                day2.setTime(day2.getTime() + (1*24*60*60*1000));
+                let expires = "expires=" + day2.toUTCString();
                 document.cookie = "hihihiha=false;" + expires + ";path=/";
 
                 easterScreen.innerHTML = "<button onclick='location.href=\"?classe=<?php echo $_GET['classe']; ?>&day=<?php echo $str_data; ?>\";' style='background: transparent; border: 2.5px solid white; font-weight: bold; color: #ffffff; border-radius: 12px; font-size: 20px; margin: auto; cursor: pointer; padding: 5px 30px;'>Vedi gli eventi&nbsp;&nbsp;&nbsp;&nbsp;&#10095;</button>";
