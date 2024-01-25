@@ -371,5 +371,40 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
         <?php
             include '../components/footer.php';
         ?>
+
+        <?php
+            $today = date("j m");
+            if ($today == "25 01" && $_COOKIE['hihihiha'] != "false") {
+        ?>
+        <script>
+            const d = new Date();
+            let day = d.getDate();
+            let month = d.getMonth();
+
+            if (day == 25 && month == 0) {
+                var easterScreen = document.createElement("div");
+                easterScreen.style.width = "100%";
+                easterScreen.style.height = "100%";
+                easterScreen.style.position = "fixed";
+                easterScreen.style.top = "0";
+                easterScreen.style.left = "0";
+                easterScreen.style.right = "0";
+                easterScreen.style.bottom = "0";
+                easterScreen.style.zIndex = "500";
+                easterScreen.style.backgroundColor = "#410810";
+                easterScreen.style.backgroundImage = "url('../img/sfondo_natale.png')";
+
+                const d = new Date();
+                d.setTime(d.getTime() + (1*24*60*60*1000));
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = "hihihiha=false;" + expires + ";path=/";
+
+                easterScreen.innerHTML = "<button onclick='location.href=\"?classe=<?php echo $_GET['classe']; ?>&day=<?php echo $str_data; ?>\";' style='background: transparent; border: 2.5px solid white; font-weight: bold; color: #ffffff; border-radius: 12px; font-size: 20px; margin: auto; cursor: pointer; padding: 5px 30px;'>Vedi gli eventi&nbsp;&nbsp;&nbsp;&nbsp;&#10095;</button>";
+                document.body.appendChild(easterScreen);
+            }
+        </script>
+        <?php
+            }
+        ?>
     </body>
 </html>
