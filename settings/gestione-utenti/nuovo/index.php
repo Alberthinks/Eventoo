@@ -78,7 +78,7 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
             <label class="label2">Permessi:</label><br>
             <input type="radio" name="permessi" id="read_permesso" value="read"> <label for="read_permesso">Lettura (leggere gli eventi dell'agenda)</label><br>
             <input type="radio" name="permessi" id="write_permesso" value="write"> <label for="write_permesso">Lettura e scrittura (leggere, aggiungere, modificare ed eliminare gli eventi dell'agenda)</label><br>
-            <input type="radio" name="permessi" id="admin_permesso"> <label for="admin_permesso">Amministrazione (accesso completo e senza limitazioni alla piattaforma)</label><br>
+            <input type="radio" name="permessi" id="admin_permesso" value="administration"> <label for="admin_permesso">Amministrazione (accesso completo e senza limitazioni alla piattaforma)</label><br>
 
             <input type="submit" name="submit" value="Registra utente" style="padding: 0; background: green; color: #fff; border: none; width: 140px; height: 40px;">
         </form>

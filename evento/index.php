@@ -121,7 +121,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
                         echo "<div class=\"informazioni\">";
                         echo "<h2 class=\"titolo\">".$titolo."</h2>";
-                        echo "<span id=\"dots\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione\">".$descrizione."</p><p><a id=\"descrizioneBtn\" style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" href=\"#\">Espandi</a></p>\n";
+                        echo "<span id=\"dots\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione\">".$descrizione."</p><p><a id=\"descrizioneBtn\" style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer;\">Espandi</a></p>\n";
                         ?>
                         <script type="text/javascript">  
                             $(document).ready(function(){
@@ -156,7 +156,9 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                             echo "<i class=\"material-icons\">event</i> <b>Categoria:</b> ".$tipo."<br>\n";
                         }
                         
-                        echo "<span id=\"dots2".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" id=\"classeBtn".$id."\" href=\"#\">Mostra tutte le classi</a></p>\n";
+                        if ($classe != "Nessuna classe selezionata") {
+                            echo "<span id=\"dots2".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" style=\"margin-top:0;\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer;\" id=\"classeBtn".$id."\">Mostra tutte le classi</a></p>\n";
+                        }
                         ?>
                         <script type="text/javascript">  
                             $(document).ready(function(){
@@ -256,7 +258,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     echo "<div class=\"informazioni\">";
                     echo "<h2 class=\"titolo\">".$titolo."</h2>\n";
                     // Descrizione dell'evento
-                    echo "<span id=\"dots".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione".$id."\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" id=\"descrizioneBtn".$id."\" href=\"#\">Espandi</a></p>\n";
+                    echo "<span id=\"dots".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"descrizione".$id."\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor:pointer;\" id=\"descrizioneBtn".$id."\">Espandi</a></p>\n";
                     ?>
                     <script type="text/javascript">  
                         $(document).ready(function(){
@@ -289,7 +291,9 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     if (isset($tipo) && ($tipo != "")) {
                         echo "<i class=\"material-icons\">event</i> <b>Categoria:</b> ".$tipo."<br>\n";
                     }
-                    echo "<span id=\"dots2".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px;\" id=\"classeBtn".$id."\" href=\"#\">Mostra tutte le classi</a></p>\n";
+                    if ($classe != "Nessuna classe selezionata") {
+                        echo "<span id=\"dots2".$id."\" style=\"float: right; position: relative; top: 40px; right: 15px;\">...</span><p class=\"descrizione\" style=\"margin-top:0;\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor:pointer;\" id=\"classeBtn".$id."\">Mostra tutte le classi</a></p>\n";
+                    }
                     ?>
                     <script type="text/javascript">  
                         $(document).ready(function(){
@@ -374,34 +378,27 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
 
         <?php
             $today = date("j m");
-            if ($today == "25 01" && $_COOKIE['hihihiha'] != "false") {
+            if ($today == "28 01" && $_COOKIE['hihihiha'] != "false") {
         ?>
         <script>
-            const d = new Date();
-            let day = d.getDate();
-            let month = d.getMonth();
+            var easterScreen = document.createElement("div");
+            easterScreen.style.width = "100%";
+            easterScreen.style.height = "100%";
+            easterScreen.style.position = "fixed";
+            easterScreen.style.top = "0";
+            easterScreen.style.left = "0";
+            easterScreen.style.right = "0";
+            easterScreen.style.bottom = "0";
+            easterScreen.style.zIndex = "500";
+            easterScreen.style.backgroundColor = "#410810";
 
-            if (day == 25 && month == 0) {
-                var easterScreen = document.createElement("div");
-                easterScreen.style.width = "100%";
-                easterScreen.style.height = "100%";
-                easterScreen.style.position = "fixed";
-                easterScreen.style.top = "0";
-                easterScreen.style.left = "0";
-                easterScreen.style.right = "0";
-                easterScreen.style.bottom = "0";
-                easterScreen.style.zIndex = "500";
-                easterScreen.style.backgroundColor = "#410810";
-                easterScreen.style.backgroundImage = "url('../img/sfondo_natale.png')";
+            const day2 = new Date();
+            day2.setTime(day2.getTime() + (1*24*60*60*1000));
+            let expires = "expires=" + day2.toUTCString();
+            document.cookie = "hihihiha=false;" + expires + ";path=/";
 
-                const day2 = new Date();
-                day2.setTime(day2.getTime() + (1*24*60*60*1000));
-                let expires = "expires=" + day2.toUTCString();
-                document.cookie = "hihihiha=false;" + expires + ";path=/";
-
-                easterScreen.innerHTML = "<button onclick='location.href=\"?classe=<?php echo $_GET['classe']; ?>&day=<?php echo $str_data; ?>\";' style='background: transparent; border: 2.5px solid white; font-weight: bold; color: #ffffff; border-radius: 12px; font-size: 20px; margin: auto; cursor: pointer; padding: 5px 30px;'>Vedi gli eventi&nbsp;&nbsp;&nbsp;&nbsp;&#10095;</button>";
-                document.body.appendChild(easterScreen);
-            }
+            easterScreen.innerHTML = "<button onclick='location.href=\"?classe=<?php echo $_GET['classe']; ?>&day=<?php echo $str_data; ?>\";' style='background: transparent; border: 2.5px solid white; font-weight: bold; color: #ffffff; border-radius: 12px; font-size: 20px; margin: auto; cursor: pointer; padding: 5px 30px;'>Vedi gli eventi&nbsp;&nbsp;&nbsp;&nbsp;&#10095;</button>";
+            document.body.appendChild(easterScreen);
         </script>
         <?php
             }
