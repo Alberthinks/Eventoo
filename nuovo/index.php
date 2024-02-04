@@ -164,7 +164,7 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                         <p>
                             <!-- Descrizione evento -->
                             <div class="input-container">
-                                <input
+                                <!--<input
                                     type="text"
                                     id="descrizione"
                                     name="descrizione"
@@ -173,8 +173,19 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                                     aria-labelledby="label-descrizione"
                                     style="resize: both;"
                                     oninput="manageTextInputStyle('descrizione')"
-                                />
-                                <label class="label" for="descrizione" id="label-descrizione">
+                                />-->
+                                
+                                <textarea
+                                    id="descrizione"
+                                    name="descrizione"
+                                    rows="14"
+                                    cols="52"
+                                    aria-labelledby="label-descrizione"
+                                    style="resize: none;"
+                                    oninput="manageTextInputStyle('descrizione')"
+                                ></textarea>
+
+                                <label class="label" for="descrizione" style="height: 50px;" id="label-descrizione">
                                     <div class="text">Descrizione (facoltativa)</div>
                                 </label>
                             </div>
@@ -614,7 +625,6 @@ $permessi = $_SESSION['session_permessi_eventoo'];
         /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
         autocomplete(document.getElementById("luogo"), luoghi);
         autocomplete(document.getElementById("tipo"), tipi);
-        autocompleteClassi(document.getElementById("classeHidden"), document.getElementById("classe"), classi);
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script>

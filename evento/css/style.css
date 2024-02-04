@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handlee&family=Kalam:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
 
 html, body {height: 100%; width: 100%;}
@@ -6,10 +6,9 @@ html, body {height: 100%; width: 100%;}
 .titolo {
   text-align: center;
   font-size: 52px;
-  letter-spacing: 6px;
   margin-bottom: -5px;
   margin-top: 0;
-  font-family: var(--font-event-details-title);
+  font-family: 'Kalam', Noto Color Emoji, cursive;
 }
 
 .descrizione {
@@ -22,11 +21,12 @@ html, body {height: 100%; width: 100%;}
   width: 40%;
   min-width: 400px;
   padding: 20px 30px 30px 30px;
-  margin-top: 60px;
+  margin-top: 80px;
+  margin-right: 65px;
   background-color: var(--color-event-details);
   box-shadow: 5px 5px 7px rgba(33,33,33,0.7);
-  font-family: 'Caveat', Noto Color Emoji, cursive;
-  font-size: 28px;
+  font-family: 'Handlee', Noto Color Emoji, cursive;
+  font-size: 20px;
   letter-spacing: 2px;
   color: #000000;
   float: left;
@@ -37,8 +37,8 @@ html, body {height: 100%; width: 100%;}
 }
 
 .informazioni b, .informazioni p, .informazioni a {
-  font-family: 'Caveat', Noto Color Emoji, cursive;
-  font-size: 26px;
+  font-family: 'Handlee', Noto Color Emoji, cursive;
+  font-size: 22px;
 }
 
 .informazioni p {
@@ -69,24 +69,32 @@ html, body {height: 100%; width: 100%;}
 }
 
 .file_viewer {
-  background: #eee;
+  background: var(--color-event-details);
   border-radius: 4px;
   border-collapse: collapse;
+  border: 1px solid #b5b5b5;
 }
 
-.file_viewer img {
+.file_viewer_single {
+  background: #eeeeee;
+  border-radius: 4px;
+  border-collapse: collapse;
+  margin-bottom: 120px;
+}
+
+.file_viewer img, .file_viewer_single img {
   padding: 10px 20px;
   height: 50px;
 }
 
-.file_viewer a {
+.file_viewer a, .file_viewer_single a {
   padding: 10px;
   border-radius: 4px;
   transition: 0.2s;
 }
 
-.file_viewer a:hover {
-  background-color: #ccc;
+.file_viewer a:hover, .file_viewer_single a:hover {
+  background-color: rgba(140,140,140,0.2);
 }
 
 /* Immagine della locandina */
@@ -107,7 +115,6 @@ html, body {height: 100%; width: 100%;}
     padding-top: 5px;
     padding-bottom: 5px;
     user-select: none;
-    margin-top: 120px;
     transition: all 0.4s ease-in-out;
   }
   .prenotaBtn:hover {

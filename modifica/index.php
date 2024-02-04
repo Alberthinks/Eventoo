@@ -189,7 +189,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         <p>
                             <!-- Descrizione evento -->
                             <div class="input-container">
-                                <input
+                                <!--<input
                                     type="text"
                                     id="descrizione"
                                     name="descrizione"
@@ -198,8 +198,18 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                     aria-labelledby="label-descrizione"
                                     style="resize: both;"
                                     oninput="manageTextInputStyle('descrizione')"
-                                />
-                                <label class="label" for="descrizione" id="label-descrizione">
+                                />-->
+                                <textarea
+                                    id="descrizione"
+                                    name="descrizione"
+                                    rows="14"
+                                    cols="52"
+                                    aria-labelledby="label-descrizione"
+                                    style="resize: none;"
+                                    oninput="manageTextInputStyle('descrizione')"
+                                ><?php echo $descrizione; ?></textarea>
+
+                                <label class="label" for="descrizione" style="height: 50px;" id="label-descrizione">
                                     <div class="text">Descrizione (facoltativa)</div>
                                 </label>
                             </div>

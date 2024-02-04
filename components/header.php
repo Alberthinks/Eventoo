@@ -28,6 +28,9 @@ if ($today == "24 12") {
 if ($today == "25 12") {
   $logoPlatform = "logo_natale.png";
 }
+if ($today == "26 12") {
+  $logoPlatform = "logo_natale.png";
+}
 if ($today == "31 10") {
   $logoPlatform = "logo_halloween.png";
 }

@@ -28,7 +28,6 @@
 	--color-event-details: #ffffcc;
 	--color-alert: #ffe166;
 	--color-error: #c20000;
-	--font-event-details-title: 'Permanent Marker', cursive;
 }
 
 html, body {
@@ -49,7 +48,6 @@ a {
     text-decoration: none;
 }
 
-/* Header (intestazioni) */
 .tabel {
 	border-color: black;
 	border-style: solid;
@@ -81,9 +79,16 @@ select {
 	padding: 12px 16px;
 }
 
-  .long_input, .multiselect, .selectBox, select {width: 620px !important;}
+textarea#descrizione {
+	padding: 5px;
+	padding-top: 16px;
+	border: 1px solid #c0c0c0;
+	border-radius: 4px;
+}
+
+.long_input, .multiselect, .selectBox, select, textarea#descrizione {width: 620px !important;}
   
-  .label, .fixed_label {
+.label, .fixed_label {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -92,73 +97,73 @@ select {
 	align-items: center;
 	pointer-events: none;
 	color: var(--color-label);
-  }
-  
-  input, .label .text {
+}
+
+input, .label .text, textarea#descrizione {
 	font-family: 'Segoe UI';
 	font-size: 16px;
-  }
-  
-  input:focus, select:focus {
+}
+
+input:focus, select:focus, textarea#descrizione:focus {
 	outline: none;
 	border: 2px solid var(--color-input-focus);
-  }
-  
-  input:focus + .label .text, :not(input[value=""]) + .label .text {
+}
+
+input:focus + .label .text, :not(input[value=""]) + .label .text, #descrizione:focus + .label .text {
 	font-size: 12px;
 	transform: translate(0, -140%);
 	background-color: white;
 	padding-left: 4px;
 	padding-right: 4px;
-  }
-  
-  .fixed_label {
+}
+
+.fixed_label {
 	font-size: 12px !important;
 	transform: translate(0, -50%) !important;
 	background-color: white;
 	height: 18px;
 	padding-left: 4px;
 	padding-right: 4px;
-  }
-  
-  input:focus + .label .text, input:focus + .fixed_label {
+}
+
+input:focus + .label .text, input:focus + .fixed_label, #descrizione:focus + .label .text {
 	color: var(--color-input-focus);
-  }
-  
-  .label .text {
+}
+
+.label .text {
 	transition: all 0.15s ease-out;
-  }
+}
 
-  
-  .multiselect {
+
+.multiselect {
 	width: 100%;
-	}
+}
 
-	.selectBox {
+.selectBox {
 	position: relative;
-	}
+}
 
-	.selectBox select {
+.selectBox select {
 	width: 100%;
-	}
+}
 
-	.overSelect {
+.overSelect {
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
 	bottom: 0;
-	}
+}
 
-	#mySelectOptions {
+#mySelectOptions {
 	display: none;
 	border: 0.5px #7c7c7c solid;
 	background-color: #ffffff;
 	max-height: 150px;
 	overflow-y: scroll;
-	}
+}
 
-	#mySelectOptions label {
+#mySelectOptions label {
 	display: block;
 	font-weight: normal;
 	display: block;
@@ -168,14 +173,14 @@ select {
 	padding: 0 2.25rem 0 .75rem;
 	user-select: none;
 	/* padding: .375rem 2.25rem .375rem .75rem; */
-	}
+}
 
-	#mySelectOptions label:hover {
+#mySelectOptions label:hover {
 	background-color: var(--color-primary);
 	color: #ffffff;
-	}
-	
-	input[type=checkbox] {
-		width: initial;
-		height: initial;
-	}
+}
+
+input[type=checkbox] {
+	width: initial;
+	height: initial;
+}
