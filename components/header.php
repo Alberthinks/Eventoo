@@ -34,6 +34,9 @@ if ($today == "26 12") {
 if ($today == "31 10") {
   $logoPlatform = "logo_halloween.png";
 }
+if ($today == "25 11") {
+  $logoPlatform = "logo_25novembre.png";
+}
 ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400&display=swap');
