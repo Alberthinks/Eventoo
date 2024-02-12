@@ -124,7 +124,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         
                         
                         // Descrizione dell'evento
-                        echo "<p class=\"descrizione\" id=\"descrizione".$id."\" style=\"text-align: left;\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor:pointer; font-size: 18px;\" id=\"descrizioneBtn".$id."\">Espandi</a></p>\n";
+                        echo "<p class=\"descrizione\" id=\"descrizione".$id."\" style=\"text-align: left;\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor:pointer; font-size: 18px; user-select: none;\" id=\"descrizioneBtn".$id."\">Espandi</a></p>\n";
                         ?>
                         <script type="text/javascript">  
                             $(document).ready(function(){
@@ -159,7 +159,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         
                         
                         if ($classe != "Nessuna classe selezionata") {
-                            echo "<p class=\"descrizione\" style=\"margin-top:0; text-overflow: ellipsis; text-align: left;\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 18px;\" id=\"classeBtn".$id."\">Mostra tutte le classi</a></p>\n";
+                            echo "<p class=\"descrizione\" style=\"margin-top:0; text-overflow: ellipsis; text-align: left;\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 18px; user-select: none;\" id=\"classeBtn".$id."\">Mostra tutte le classi</a></p>\n";
                         }
                         ?>
                         <script type="text/javascript">  
@@ -255,7 +255,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     echo "<h2 class=\"titolo\">".$titolo."</h2>\n";
                     
                     // Descrizione dell'evento
-                    echo "<p class=\"descrizione\" id=\"descrizione".$id."\" style=\"text-overflow: clip; text-align: left;\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 18px;\" id=\"descrizioneBtn".$id."\">Espandi</a></p>\n";
+                    echo "<p class=\"descrizione\" id=\"descrizione".$id."\" style=\"text-overflow: clip; text-align: left;\">".$descrizione."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 18px; user-select: none;\" id=\"descrizioneBtn".$id."\">Espandi</a></p>\n";
                     ?>
                     <script type="text/javascript">  
                         $(document).ready(function(){
@@ -287,7 +287,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         echo "<i class=\"material-icons\">event</i> <b>Categoria:</b> ".$tipo."<br>\n";
                     }
                     if ($classe != "Nessuna classe selezionata") {
-                        echo "<p class=\"descrizione\" style=\"margin-top:0; text-overflow: ellipsis; text-align: left;\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 18px;\" id=\"classeBtn".$id."\">Mostra tutte le classi</a></p>\n";
+                        echo "<p class=\"descrizione\" style=\"margin-top:0; text-overflow: ellipsis; text-align: left;\" id=\"classe".$id."\"><i class=\"material-icons\">school</i> <b>Classe interessata:</b> ".$classe."</p><p><a style=\"border: 1px solid black; border-radius: 5px; padding: 5px 10px; cursor: pointer; font-size: 18px; user-select: none;\" id=\"classeBtn".$id."\">Mostra tutte le classi</a></p>\n";
                     }
                     ?>
                     <script type="text/javascript">  
