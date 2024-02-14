@@ -311,11 +311,11 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                                                 if (in_array($value, $arrayClassi)) {
                                                     $i = array_search($value, $arrayClassi);
                                                     
-                                                    if ($x == 0) {          // Applico la funzione specifica per selezionare tutte le classi della sede Balzan
+                                                    if ($i == 1) {          // Applico la funzione specifica per selezionare tutte le classi della sede Balzan
                                                         $arrayClassi2[$i] = '<label for="element'.$i.'"><input type="checkbox" id="element'.$i.'" onchange="selectBalzan()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
-                                                    } else if ($x == 1) {   // Applico la funzione specifica per selezionare tutte le classi della sede Einaudi
+                                                    } else if ($i == 2) {   // Applico la funzione specifica per selezionare tutte le classi della sede Einaudi
                                                         $arrayClassi2[$i] = '<label for="element'.$i.'"><input type="checkbox" id="element'.$i.'" onchange="selectEinaudi()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
-                                                    } else if ($x == 2) {   // Applico la funzione specifica per selezionare tutte le classi della sede Medie
+                                                    } else if ($i == 3) {   // Applico la funzione specifica per selezionare tutte le classi della sede Medie
                                                         $arrayClassi2[$i] = '<label for="element'.$i.'"><input type="checkbox" id="element'.$i.'" onchange="selectMedie()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
                                                     } else {                // Checkbox per le singole classi
                                                         $arrayClassi2[$i] = '<label for="'.$arrayClassi[$i].'"><input type="checkbox" id="'.$arrayClassi[$i].'" onchange="checkboxStatusChange()" value="'.$arrayClassi[$i].'" checked /> '.$arrayClassi[$i].'</label>';
@@ -401,7 +401,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                             justCheckedMedie = false;
 
                             function selectBalzan() {
-                                if (!justCheckedBalzan) {
+                                if (!justCheckedBalzan && document.getElementById('element1').checked == true) {
                                 <?php
                                     $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Balzan", "encrypt")."'") or die (mysqli_error($conn));
                                     if(mysqli_num_rows($query) > 0) {
@@ -426,7 +426,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                             }
 
                             function selectEinaudi() {
-                                if (!justCheckedEinaudi) {
+                                if (!justCheckedEinaudi && document.getElementById('element2').checked == true) {
                                 <?php
                                     $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Einaudi", "encrypt")."'") or die (mysqli_error($conn));
                                     if(mysqli_num_rows($query) > 0) {
@@ -451,7 +451,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                             }
 
                             function selectMedie() {
-                                if (!justCheckedMedie) {
+                                if (!justCheckedMedie && document.getElementById('element3').checked == true) {
                                 <?php
                                     $query = mysqli_query($conn,"SELECT * FROM classi WHERE sede='".cripta("Medie", "encrypt")."'") or die (mysqli_error($conn));
                                     if(mysqli_num_rows($query) > 0) {

@@ -277,6 +277,10 @@ include 'default.php';
                                                 $validity = stripslashes($fetch['validity']);
                                             }
 
+                                            if ($data == $oggi && $type == "Chiusura") {
+                                                oggiChiuso();
+                                            }
+
                                             // Elimino i file degli eventi salvati da 2 o piu' anni
                                             if ($validity <= date('Ymd') - 20000) {
                                                 unlink("evento/files/$filenameDelete");
@@ -296,16 +300,20 @@ include 'default.php';
                                                             </div>";
                                         }
                                         $num_rows = mysqli_num_rows($result);
-                                        if($num_rows > 1)
+                                        if($num_rows > 1) {
+                                            while($fetch = mysqli_fetch_array($result))
                                             {
-                                                while($fetch = mysqli_fetch_array($result))
-                                                {
-                                                    $id = stripslashes($fetch['id']);
-                                                    $titolo = stripslashes($fetch['titolo']);
-                                                    $data_evento = date("d-m-Y", $fetch['data']);
+                                                $id = stripslashes($fetch['id']);
+                                                $titolo = stripslashes($fetch['titolo']);
+                                                $tipologia = stripslashes($fetch['categoria']);
+                                                $data_evento = date("d-m-Y", $fetch['data']);
+                                                
+                                                if ($data == $oggi && $tipologia == "Chiusura") {
+                                                    oggiChiuso();
                                                 }
-                                            
-                                                $contenuto = "<a href=\"evento/?day=$str_data&classe=".$_GET['classe']."\" title=\"Vedi tutti\"><div class=\"nota multipla\">Sono presenti ".$num_rows." eventi...</div></a>";
+                                            }
+                                        
+                                            $contenuto = "<a href=\"evento/?day=$str_data&classe=".$_GET['classe']."\" title=\"Vedi tutti\"><div class=\"nota multipla\">Sono presenti ".$num_rows." eventi...</div></a>";
                                         }
                                     
                                     
@@ -319,8 +327,7 @@ include 'default.php';
                                 $class = "class=\"td_hover\" onclick=\"newEvent(".$data.")\"";
                             }
 
-                            if($data == $oggi)
-                            {
+                            if($data == $oggi) {
                                 echo "<td class=\"oggi\" onclick=\"newEvent(".$data.")\"><span class=\"data\">".$day."</span>".$contenuto."</td>";
                             } else {
                                 echo "<td ".$class."><span class=\"data\">".$day."</span>".$contenuto."</td>";
@@ -386,6 +393,11 @@ include 'default.php';
         </script>
         <?php
         include 'components/footer.php';
+        
+
+        function oggiChiuso() {
+            echo "<script>document.getElementById('logo').src = 'logo_chiuso.png'; document.getElementById('logo').style.height = '72.5px';</script>";
+        }
         ?>
     </body>
 </html>

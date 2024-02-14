@@ -37,6 +37,12 @@ if ($today == "31 10") {
 if ($today == "25 11") {
   $logoPlatform = "logo_25novembre.png";
 }
+if ($today == "26 11") {
+  $logoPlatform = "logo_chiuso.png\" style=\"height: 72.5px !important;";
+}
+/*if ($today == "13 02") {
+  $logoPlatform = "logo_chiuso.png\" style=\"height: 72.5px !important;";
+}*/
 ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400&display=swap');
@@ -47,7 +53,7 @@ if ($today == "25 11") {
     .logo {float: left;}
     #account {border-radius: 50%; cursor: pointer; width: 45px; height: 45px; margin-top: 20px;}
     #account:hover {background: rgba(255, 255, 255, 0.4);}
-    .logo img {height: 60px; width: auto; margin-top: 12px; transition: height 0.3s;}
+    .logo img {height: 60px; width: auto; margin-top: 12px;}
     
     .dropdown {
         display: block;

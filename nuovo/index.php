@@ -468,6 +468,20 @@ $permessi = $_SESSION['session_permessi_eventoo'];
                             <a class="drop-zone__prompt__accepted_filetype"><b>File accettati:</b> .pdf, .doc, .docx, .txt, .pub</a></span>
                             <input name="locandina" id="selectfile" class="drop-zone__input" type="file" accept=".pdf, .doc, .docx, .txt, .pub">
                         </div>
+                        <input style="margin-top: 60px; accent-color: #db0d0d;" type="checkbox" name="chiusura" id="chiusura" onchange="chiusuraScuola()"><label for="chiusura" style="color: #db0d0d; margin-left: 10px; font-weight: bold;">Sospensione delle lezioni/chiusura della scuola</label>
+                        <script>
+                            function chiusuraScuola() {
+                                let checkbox = document.getElementById("chiusura");
+                                let categoryText = document.getElementById("tipo");
+                                if (checkbox.checked == true) {
+                                    categoryText.value = "Chiusura";
+                                    manageTextInputStyle("tipo");
+                                } else {
+                                    categoryText.value = "";
+                                    manageTextInputStyle("tipo");
+                                }
+                            }
+                        </script>
                     </div>
                 </div>
                 <p>

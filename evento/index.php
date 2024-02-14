@@ -114,6 +114,11 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                         $link_foto_video = stripslashes($fetch['link_locandina']);
                         $data_modifica = stripslashes($fetch['data_modifica']);
 
+                        // Metto il logo "Chiuso" nell'header se l'evento di oggi dice che la scuola e' chiusa
+                        if ($tipo == "Chiusura" && date("d/m/Y", $data) == date("d/m/Y", time())) {
+                            oggiChiuso();
+                        }
+
                         // Se e' stata caricata un'immagine come locandina, si mostra l'immagine; altrimenti non si mostra niente
                         if ($link_foto_video == "") {
                             $link_foto_video = "locandina_default.png";
@@ -249,6 +254,10 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
                     $link_locandina = stripslashes($fetch['link_locandina']);
                     $data_modifica = stripslashes($fetch['data_modifica']);
 
+                    // Metto il logo "Chiuso" nell'header se l'evento di oggi dice che la scuola e' chiusa
+                    if ($tipo == "Chiusura" && date("d/m/Y", $data) == date("d/m/Y", time())) {
+                        oggiChiuso();
+                    }
 
                     //echo "<section style='margin-top: 40px; overflow: hidden;'>";
                     echo "<div class=\"informazioni\">";
@@ -363,6 +372,10 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
         <br><br><br>
         <?php
             include '../components/footer.php';
+
+            function oggiChiuso() {
+                echo "<script>document.getElementById('logo').src = '../logo_chiuso.png'; document.getElementById('logo').style.height = '72.5px';</script>";
+            }
         ?>
 
         <?php
