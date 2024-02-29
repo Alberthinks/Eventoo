@@ -55,6 +55,7 @@
                     
                     if (empty($username) || empty($password)) {
                         $msg = 'Inserisci username e password %s';
+                        echo "<script>location.replace('index.php?error=0x85arpo');</script>";
                     } else {
                         $query = "
                             SELECT *

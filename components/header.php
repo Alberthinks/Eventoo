@@ -40,9 +40,18 @@ if ($today == "25 11") {
 if ($today == "26 11") {
   $logoPlatform = "logo_chiuso.png\" style=\"height: 72.5px !important;";
 }
+if ($today == "16 01") {
+  // Anniversario di Eventoo
+  $logoPlatform = "logo_festa.png";
+  echo "<style>#anni {display: block !important; visibility: visible !important;}</style>";
+}
 /*if ($today == "13 02") {
   $logoPlatform = "logo_chiuso.png\" style=\"height: 72.5px !important;";
 }*/
+
+// Per anniversario di Eventoo: conto quanti anni sono passati dal 16 gennaio 2024
+$oggi = date("Y");
+$anniversatio = $oggi - 2024;
 ?>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400&display=swap');
@@ -86,11 +95,30 @@ if ($today == "26 11") {
     .dropdown a:hover {background-color: #ddd;}
 
     .show {display: block;}
+
+    #anni {
+      color: red;
+      font-weight: bold;
+      font-size: 40px;
+      transform: rotateZ(16deg);
+      display: none;
+      visibility: hidden;
+      position: absolute;
+      top: 20px;
+      left: 170px;
+      font-family: Arial Black, sans-serif;
+    }
 </style>
 
 <header id="header">
     <div id="top_menu">
-        <div class="logo"><a href="<?php echo $base_url; ?>" title="Home"><img alt="Eventoo" src="<?php echo $base_url.$logoPlatform; ?>" draggable="false" id="logo"></a></div>
+        <div class="logo">
+          <a href="<?php echo $base_url; ?>" title="Home">
+            <img alt="Eventoo" src="<?php echo $base_url.$logoPlatform; ?>" draggable="false" id="logo">
+            <!-- Anniversario di Eventoo -->
+            <span id="anni">+<?php echo $anniversatio; ?></span>
+          </a>
+        </div>
         <div class="dropdown">
             <?php
             if (isset($_SESSION['session_id_eventoo'])) {
