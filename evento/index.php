@@ -379,7 +379,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
         ?>
 
         <?php
-            $today = date("j m");
+            /*$today = date("j m");
             if ($today == "28 01" && $_COOKIE['hihihiha'] != "false") {
         ?>
         <script>
@@ -403,7 +403,7 @@ $conn = mysqli_connect($host,$user,$pass, $db) or die (mysqli_error());
             document.body.appendChild(easterScreen);
         </script>
         <?php
-            }
+            }*/
         ?>
     </body>
 </html>
