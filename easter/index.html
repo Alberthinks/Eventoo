@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+		td{ text-align:center;
+		background: rgb(19,115,214);
+		background: radial-gradient(circle, rgba(19,115,214,1) 0%, rgba(27,206,223,1) 100%);
+		width:150px;
+		height:150px;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.5s ease;
+		position: relative;
+		border-radius: 25px;
+		}
+		#main{
+			padding-top:20px;
+			padding-bottom:200px;
+			perspective: 900px;
+			background-color:dodgerblue;
+			border:solid;
+			width: 80%;
+			box-shadow: 10px 10px 40px black;
+		}
+		#tab{
+			transform: rotateX(30deg);
+			z-index: 1;
+			
+			
+			
+		}
+		table{
+			background: rgba(27,206,223,1);
+			box-shadow: 5px 5px 30px 30px #00000;
+			filter: drop-shadow(0px 0px 50px #050e95);
+			border-radius:25px;
+			padding:5px;
+		}
+
+		@media only screen and (max-width: 1000px) {
+			#tab {
+				transform: rotateX(15deg); /* Adjust the degree of rotation as needed */
+			}
+			#main{
+				margin-top: 30%;
+			
+			}
+		}
+		@media only screen and (max-width: 800px) {
+			td, .pesc, img {width: 120px !important; height: 120px !important;}
+		}
+		@media only screen and (max-width: 660px) {
+			body {margin: 0;}
+			#main, #tab {width: 100%; height: 100%; margin: 0; padding: 0;}
+			td, .pesc, img {width: 80px !important; height: 80px !important;}
+		}
+		.disableInteraction{
+			pointer-events:none;
+		}
+		.disableInteractionForever{
+			pointer-events:none !important;
+		}
+		.kill{
+			
+			visibility:hidden !important;
+		}
+		.playKill{
+			animation: killAnimation 1s cubic-bezier(0, 0, 0.34, 1.33) forwards;
+		}
+		.rotate-animation {
+            animation: rotateAnimation 0.5s ease forwards;
+        }
+		.revRotate-animation {
+            animation: revRotateAnimation 0.5s ease forwards;
+        }
+		.pesc{
+			
+			background:linear-gradient(135deg, #1bcedf 0%,#050e95 100%);
+			perspective: 1000px;
+			transform:180deg;
+            cursor: pointer;
+			user-select: none;
+			border:solid;
+			box-shadow: 2px 2px 2px #000000;
+			border-radius: 25px;
+		
+
+		}
+		#ctr{
+			text-align:center;
+		}
+		#invbut{
+				margin-top: 10%;
+				margin-bottom: 10%;
+				display: inline-block;
+				vertical-align: middle;
+				transition: 0.3s;
+				font-size: 45px;
+				background: #c6deb1;
+		}
+		#invbut:hover{
+			scale:1.1;
+			box-shadow: 1px  1px  5px  #000000;
+			background: #b32536;
+			animation: horizontal-shaking 0.5s ease infinite;
+		}
+		@keyframes horizontal-shaking {
+				0% { transform: translateX(0) }
+				25% { transform: translateX(5px) }
+				50% { transform: translateX(-5px) }
+				75% { transform: translateX(5px) }
+				100% { transform: translateX(0) }
+		}
+		td:hover {
+			transform: scale(1.1) translateY(-10px);
+			z-index: 10;
+			box-shadow: 0px 0px 20px 10px #1bcedf;
+			filter: drop-shadow(0px 0px 30px #050e95);
+		}
+		img{
+
+			visibility:hidden;
+		}
+
+		@keyframes killAnimation {
+				0% {
+        transform: translateY(0) translateZ(0) rotateX(0) rotateY(0) rotateZ(0);
+        opacity: 1;
+    }
+    
+    100% {
+        transform: translateY(-200px) translateZ(300px) rotateX(180deg) rotateY(180deg) rotateZ(90deg);
+        opacity: 0;
+    }
+		}
+
+        @keyframes rotateAnimation {
+			0% {
+				transform: rotateY(0deg);
+			}
+    
+			100% {
+				transform: rotateY(180deg);
+			}
+		}
+
+		@keyframes revRotateAnimation {
+			0% {
+				transform: rotateY(180deg);
+			}
+    
+			100% {
+				transform: rotateY(0deg);
+			}
+		}
+
+	</style>
+	<script>
+	
+		var scelta1div;
+		var scelta1img;
+		var scelta2div;
+		var scelta2img;
+		var giaPrima = false;
+
+		class Stack {
+			constructor() {
+				this.items = [];
+			}
+
+			
+			push(element) {
+				this.items.push(element);
+			}
+
+			
+			pop() {
+				if (this.isEmpty()) {
+					return "Underflow";
+				}
+				return this.items.pop();
+			}
+
+			
+			peek() {
+				return this.items[this.items.length - 1];
+			}
+
+			
+			isEmpty() {
+				return this.items.length === 0;
+			}
+
+			
+			size() {
+				return this.items.length;
+			}
+
+			
+			clear() {
+				this.items = [];
+			}
+
+			
+			printStack() {
+				let str = "";
+				for (let i = 0; i < this.items.length; i++) {
+					str += this.items[i] + " ";
+				}
+				return str;
+			}
+		}
+
+		window.onload = function () {
+            avvio();
+        };
+
+		function avvio(){
+			var pescElements = document.querySelectorAll('.pesc');
+            pescElements.forEach(function (pesc) {
+				pesc.style.visibility = "hidden";
+                pesc.classList.add('rotate-animation');
+				pesc.classList.remove('revRotate-animation');
+				setTimeout(() =>pesc.style.visibility = "visible", 300);
+            });
+
+			let stack = new Stack();
+			let stack1 = new Stack();
+			let stack2 = new Stack();
+			let stack3 = new Stack();
+			let stack4 = new Stack();
+			stack1.push(1);
+			stack1.push(1);
+			stack2.push(2);
+			stack2.push(2);
+			stack3.push(3);
+			stack3.push(3);
+			stack4.push(4);
+			stack4.push(4);
+			stack1.push(1);
+			stack1.push(1);
+			stack2.push(2);
+			stack2.push(2);
+			stack3.push(3);
+			stack3.push(3);
+			stack4.push(4);
+			stack4.push(4);
+			
+			for(var i = 0; i<16; i++){
+				let rand = Math.floor(Math.random() * 4);
+				switch(rand){
+					case 0:
+						if(stack1.isEmpty()){
+							i--;
+						}
+						else{
+							stack.push(stack1.pop());
+						}
+					break;
+					case 1:
+						if(stack2.isEmpty()){
+							i--;
+						}
+						else{
+							stack.push(stack2.pop());
+						}
+
+					break;
+					case 2:
+						if(stack3.isEmpty()){
+							i--;
+						}
+						else{
+							stack.push(stack3.pop());
+						}
+
+					break;
+					case 3:
+						if(stack4.isEmpty()){
+							i--;
+						}
+						else{
+							stack.push(stack4.pop());
+						}
+
+					break;
+				}
+			}
+
+			pescElements.forEach(function (pesc) {
+				
+				pesc.innerHTML = '<img class="pesce" draggable="false" src="' + stack.pop() +  '.png">';
+			});
+		}
+		
+
+
+		/*
+		function scelta(event){
+			var clickedDiv = event.target.closest(".pesc");
+			var image = clickedDiv.querySelector("img");
+			if(clickedDiv.classList.contains("rotate-animation")){
+				clickedDiv.classList.remove('rotate-animation');
+				clickedDiv.classList.add('revRotate-animation');
+				setTimeout(() => image.style.visibility = "visible", 175);
+			}
+			else{
+				clickedDiv.classList.remove('revRotate-animation');
+				clickedDiv.classList.add('rotate-animation');
+				setTimeout(() => image.style.visibility = "hidden", 140);
+			}	
+		}
+		
+		*/
+		function scelta(event){
+			var clickedDiv = event.target.closest(".pesc");
+			var image = clickedDiv.querySelector("img");
+			clickedDiv.classList.remove('rotate-animation');
+			clickedDiv.classList.add('revRotate-animation');
+			setTimeout(() => image.style.visibility = "visible", 175);
+			act(clickedDiv, image);
+		}
+		var tolti=0;
+		function reshuffle(){
+			let pescElements2 = document.querySelectorAll('.ancorasi');
+			pescElements1.forEach(function (pesc) {
+				pesc.classList.add('disableInteraction');
+			});
+			//da fare
+		}
+		function act(div, img){
+			if(!giaPrima){
+				scelta1div = div;
+				scelta1div.classList.add('disableInteraction');
+				scelta1img = img;
+				giaPrima = true;
+			}
+			else{
+				scelta2div = div;
+				scelta2img = img;
+				let src1 = scelta1img.getAttribute('src');
+				let src2 = scelta2img.getAttribute('src');
+				if(src1 === src2){
+					console.log("uguali");
+					tolti++;
+					let pescElements1 = document.querySelectorAll('.pesc');
+					pescElements1.forEach(function (pesc) {
+						pesc.classList.add('disableInteraction');
+					});
+					
+					setTimeout(() => {
+						scelta1div.style.animation = 'killAnimation 1s cubic-bezier(0, 0, 0.34, 1.33) forwards';
+						scelta2div.style.animation = 'killAnimation 1s cubic-bezier(0, 0, 0.34, 1.33) forwards';
+					}, 500);
+					setTimeout(() => {
+						scelta1div.classList.add('kill');
+						scelta2div.classList.add('kill');
+						scelta1div.classList.remove('ancorasi');
+						scelta2div.classList.remove('ancorasi');
+						
+						scelta1img.classList.add('kill');
+						scelta2img.classList.add('kill');
+						pescElements1.forEach(function (pesc) {
+						pesc.classList.remove('disableInteraction');
+						});
+					}, 1500);
+					giaPrima = false;
+					
+				}
+				else{
+					let pescElements1 = document.querySelectorAll('.pesc');
+					pescElements1.forEach(function (pesc) {
+						pesc.classList.add('disableInteraction');
+					});
+
+					setTimeout(() => {
+						pescElements1.forEach(function (pesc) {
+							pesc.classList.remove('disableInteraction');
+					});	
+					}, 1500);
+					setTimeout(() => {
+						console.log("non uguali");
+						scelta1div.classList.remove('revRotate-animation');
+						scelta1div.classList.add('rotate-animation');
+						scelta2div.classList.remove('revRotate-animation');
+						scelta2div.classList.add('rotate-animation');
+						setTimeout(() => {
+							scelta1img.style.visibility = "hidden";
+							scelta2img.style.visibility = "hidden";
+						}, 140);
+					
+					
+						giaPrima = false;
+						
+						
+						
+					}, 1000);
+					
+				}
+			}
+		if(tolti==8)
+			setTimeout(() => {
+				let tablemod = document.getElementById('tab');
+				tablemod.innerHTML = "<div class='ctr'><button type='button' draggable='false' id='invbut' onclick='endgame()'>Passa al Livello Successivo!</button></div>";
+				
+			}, 1500);	
+		}
+		
+		function endgame(){
+			let tablemod = document.getElementById('tab');
+			tablemod.innerHTML = '<table><tr><td><div class="pesc ancorasi" id="pesc11" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td><td><div class="pesc ancorasi" id="pesc12" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td><td><div class="pesc ancorasi" id="pesc13" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td><td><div class="pesc ancorasi" id="pesc14" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td></tr><tr><td><div class="pesc ancorasi" id="pesc21" onclick="scelta(event)"><img class="pesce" draggable="false" src="4.png"></div></td><td><div class="pesc ancorasi" id="pesc22" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td><td><div class="pesc ancorasi" id="pesc23" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td><td><div class="pesc ancorasi" id="pesc24" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td></tr><tr><td><div class="pesc ancorasi" id="pesc31" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td><td><div class="pesc ancorasi" id="pesc32" onclick="scelta(event)"><img class="pesce" draggable="false" src="4.png"></div></td><td><div class="pesc ancorasi" id="pesc33" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td><td><div class="pesc ancorasi" id="pesc34" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td></tr><tr><td><div class="pesc ancorasi" id="pesc41" onclick="scelta(event)"><img class="pesce" draggable="false" src="4.png"></div></td><td><div class="pesc ancorasi" id="pesc42" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td><td><div class="pesc ancorasi" id="pesc43" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td><td><div class="pesc ancorasi" id="pesc44" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td></tr></table>';
+			tolti=0;
+			console.log("uraaa");
+			let pescElements1 = document.querySelectorAll('.pesc');
+			pescElements1.forEach(function (pesc) {
+					pesc.classList.remove('disableInteraction');
+					pesc.classList.remove('kill');
+					pesc.style = '';
+					
+			});
+			let imgElements1 = document.querySelectorAll('.pesce');
+			imgElements1.forEach(function (pesce) {
+					pesce.classList.remove('disableInteraction');
+					pesce.classList.remove('kill');
+					pesce.style = '';
+			});
+			avvio();
+		}
+	</script>
+	</head>
+	
+	<body bgcolor="#d1e8ff">
+		<center>
+			<div id="main">
+				<div id="tab">
+					<table >
+						<tr>
+							<td><div class="pesc" class="ancorasi" id="pesc11" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc12" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc13" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc14" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td>
+						</tr>
+						<tr>
+							<td><div class="pesc" class="ancorasi" id="pesc21" onclick="scelta(event)"><img class="pesce" draggable="false" src="4.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc22" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc23" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc24" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td>
+						</tr>
+						<tr>
+							<td><div class="pesc" class="ancorasi" id="pesc31" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc32" onclick="scelta(event)"><img class="pesce" draggable="false" src="4.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc33" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc34" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td>
+						</tr>
+						<tr>
+							<td><div class="pesc" class="ancorasi" id="pesc41" onclick="scelta(event)"><img class="pesce" draggable="false" src="4.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc42" onclick="scelta(event)"><img class="pesce" draggable="false" src="1.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc43" onclick="scelta(event)"><img class="pesce" draggable="false" src="3.png"></div></td>
+							<td><div class="pesc" class="ancorasi" id="pesc44" onclick="scelta(event)"><img class="pesce" draggable="false" src="2.png"></div></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</center>
+    </html>

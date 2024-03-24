@@ -108,8 +108,40 @@ $anniversatio = $oggi - 2024;
       left: 170px;
       font-family: Arial Black, sans-serif;
     }
-</style>
 
+    .easterBtn {
+      width: 60px;
+      height: 40px;
+      margin-left: 80px;
+      margin-top: 25px;
+      font-size: 24px;
+      text-align: center;
+      cursor: pointer;
+      outline: none;
+      color: #fff;
+      background-color: white;
+      background-image: url(<?php echo $base_url."components/"; ?>img_btn.gif);
+      background-size: cover;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 9px #666666;
+    }
+
+    .easterBtn:hover {background-color: #3e8e41}
+
+    .easterBtn:active {
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666666;
+      transform: translateY(4px);
+    }
+
+    #easteregg iframe {border: none; margin: auto; width: 80%; height: 100%; overflow: hidden; position: absolute; left: 2%; right: 2%;}
+
+    @media only screen and (max-width: 1030px) {
+      #easteregg iframe {width: 100% !important; left: 0;}
+      .easterBtn {margin-left: 25px;}
+    }
+</style>
 <header id="header">
     <div id="top_menu">
         <div class="logo">
@@ -119,6 +151,25 @@ $anniversatio = $oggi - 2024;
             <span id="anni">+<?php echo $anniversatio; ?></span>
           </a>
         </div>
+        
+        <?php
+          // Easter egg per il Pesce d'Aprile
+          if (date("d m") == "01 04" && !isset($_COOKIE['hahahahahaha'])) {
+        ?>
+          <button class="easterBtn" onclick="easterEgg()"> </button>
+          <script>
+            function easterEgg() {
+              if (document.getElementById('easteregg').style.display == 'block') {
+                document.getElementById('easteregg').style.display = 'none';
+              } else {
+                document.getElementById('easteregg').style.display = 'block';
+              }
+            }
+          </script>
+        <?php
+          }
+        ?>
+
         <div class="dropdown">
             <?php
             if (isset($_SESSION['session_id_eventoo'])) {
@@ -172,3 +223,14 @@ window.onclick = function(event) {
   }
 }
 </script>
+
+<?php
+  // Easter egg per il Pesce d'Aprile
+  if (date("d m") == "01 04" && !isset($_COOKIE['hahahahahaha'])) {
+?>
+  <div id="easteregg" onclick="document.getElementById('easteregg').style.display = 'none';" style="display: none; position: fixed; top: 143px; bottom: 0; left: 0; width: 100%; height: auto; background: rgba(0, 0, 0, 0.6); z-index: 9989889;">
+    <iframe src="<?php echo $base_url; ?>easter/index.html"></iframe>
+  </div>
+<?php
+  }
+?>

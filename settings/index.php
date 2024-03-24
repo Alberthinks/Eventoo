@@ -39,6 +39,7 @@ $nome = $_SESSION['session_nome_eventoo']." ".$_SESSION['session_cognome_eventoo
             <li><a href="gestione-utenti/classe">Gestisci classi</a></li>
             <li><a href="gestione-utenti/nuovo">Registra nuovo utente</a></li>
             <li><a href="gestione-utenti/accessi">Controllo accessi</a></li>
+            <li><a href="events.php">Controllo e verifica eventi</a></li>
             <?php
             if ($_SESSION['session_permessi_eventoo'] == "maintenance") {
             ?>
