@@ -186,6 +186,7 @@ $anniversatio = $oggi - 2024;
                 }
                 ?>
                 <a href="<?php echo $base_url; ?>login/logout.php">Logout</a>
+                <a href="<?php echo $base_url; ?>easter"><span class="material-icons" style="transform: translateY(5px);">play_arrow</span> Gioca</a>
             </div>
             <?php
             } else {
@@ -194,6 +195,7 @@ $anniversatio = $oggi - 2024;
             <div id="accountOptions" class="dropdown-content">
                 <p>Accedi per inserire e modificare gli eventi.</p>
                 <a href="<?php echo $base_url; ?>login">Accedi</a>
+                <a href="<?php echo $base_url; ?>easter"><span class="material-icons" style="transform: translateY(5px);">play_arrow</span> Gioca</a>
             </div>
             <?php
             }

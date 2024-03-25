@@ -244,8 +244,8 @@
 			</label>
 		</div>
 		<!-- Link password dimenticata -->
-		<p style="text-align: right;">
-			<a href="#" onclick="forgottenPsw()" style="color: #187deb; margin-top: 20px;">Credenziali dimenticate?</a>
+		<p style="text-align: right; margin-bottom: 30px; margin-top: -20px;">
+			<a onclick="forgottenPsw()" style="color: #187deb; margin-top: 20px; cursor: pointer;">Credenziali dimenticate?</a>
 		</p>
 		<div class="inputGroup inputGroup3">
 			<button id="login">Accedi</button>
